@@ -10,8 +10,7 @@ class regexParser:
     def removeSpaces(self, chain: str):
         return chain.replace(" ", "")
 
-    def parenthesizeRightSideOfUnion(self, chainList: list)
-        pass
+    
 
     def DEFINE_SYMBOLS(self, UNIONsymbol: str, STARsymbol: str):
         self.UNION = UNIONsymbol
@@ -71,15 +70,18 @@ class regexParser:
             print("Error: Solo hay singos de UNION o asteriscos o parentesis")
         return True
 
-    def PARENTHESIZE_ALL_FRAGMENTS_WITH_UNIONS(self, chain: str):
+    def PARENTHESIZE_ALL_FRAGMENTS(self, chain: str):
         chainList = list(chain)
-        chainIndex = len(chainList)-1
+        chainIndex = len(chainList)
+        # Primero revisar si tan siquiera hay parentesis
+        if ("(" not in chainList or ")" not in chainList):
+            return
 
         while(chainIndex != -1):
             char = chain[chainIndex]
-            if(char == self.UNION):
-                # Al encontrar un caracter que sea o UNION
-                self.parenthesizeRightSideOfUnion(chainList)
+            if(char != ")" or char != self.UNION or char != "("):
+                # Al encontrar un caracter que no sea parentesis o UNION
+                list.insert(chainIndex,")")
                 pass
             chainIndex -= 1
         pass

@@ -12,5 +12,5 @@ if __name__ == "__main__":
     if(not RE_parser.CHECK_FOR_INVALID_CHAINS(REchain)):
         print("Error en fase 2...")   
         raise NameError("Tu cadena es invalida, corrígela") 
-    RE_parser.PARENTHESIZE_ALL_FRAGMENTS_WITH_UNIONS(REchain) 
+    RE_parser.PARENTHESIZE_ALL_FRAGMENTS(REchain) 
     pass
