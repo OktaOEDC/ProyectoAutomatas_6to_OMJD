@@ -1,0 +1,9 @@
+from PySimpleAutomata import DFA, automata_IO
+from sympy import E
+
+dfa_example = automata_IO.dfa_json_importer('input.json')
+
+DFA.dfa_completion(dfa_example)
+new_dfa=DFA.dfa_minimization(dfa_example)
+
+automata_IO.dfa_to_dot(new_dfa, 'AFI-Resultante', 'AFI.dot')

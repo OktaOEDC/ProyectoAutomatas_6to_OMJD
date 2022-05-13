@@ -1,0 +1,75 @@
+Reglas a considerar, 
+1) DEFINE SYMBOLS: Definir de antemano los caracteres de Union, Estrella,
+  y Concatenacion
+     1b) Concat -> Ninguno, va junto
+     1c) Union -> 'U' mayuscula
+     1d) Estrella -> Asterisco
+
+2) CHECK FOR INVALID CHAINS:
+  PARENTHESIS: Debe haber la misma cantidad de parentesis de 
+  cierre que de apertura '()'
+     2b) En caso de fallarlo esto la REGEX se debe invalidar de inmediato
+     Paso 1: Contar parentesis de apertura
+     Paso 2: Contar parentesis de cierre
+     Paso 3: Comparar la cantidad, si es igual siguele, si no es fallo.
+  UNIONS: No puede haber más de dos o mas uniones seguidas
+  ASTERISKS: No puede haber más de dos o más asteriscos seguidos, si quieres aplicar
+    asterisco a algo que ya recibio asterisco debes ponerlo con parentesis previamente
+      ej : b*** -> no;  (((b)*)*)* -> sí
+     Paso 1: Ir leyendo de izquierda a derecha a cadena
+     Paso 2: Si veo uno de estos dos simbolos, abortar esta cadena si si siguiente
+       simbolo es alguno de estos dos, referirse a indicacion previa
+  LACK OF VALID CHARACTERS: Sí la cadena solo contiene parentesis, Us mayuscula, y
+     asteriscos, entonces es invalida
+      
+
+3) PARENTHESIZE ALL FRAGMENTS: Sí dentro de un parentesis hay algun fragmento 
+  tipo parentesis (ej: (hdgusgi(quisde)huohu)) entonces se deberian 
+  tomar los demas fragmentos separados como parentesis
+     3b)Si no hay parentesis, pasar al siguiente paso
+     Paso 1) Recorrer de derecha a izquierda y buscar el primer caracter
+       que no sea algun asterisco sin terminal como predesecor o algun parentesis o simbolo de UNION.
+       Si el caracter tiene un asterisco se debe revisar su caracter anterior 
+       para revisar su validez para ser candidato del paso 2, si es invalido
+       hay que seguir buscando 
+       (si fuese uno de apertura no haria eso un parentesis con vacio [no epsilon]?)
+     Paso 2) Poner un parentesis de cierre despues de este caracter
+     Paso 3) Recorrer hasta la izquierda hasta encontrar un parentesis
+     Paso 4) Revisar el escenario para saber si debemos terminar el parentizado o cancelarlo
+      Escenario 1: Si el parentesis insertado fue puesto sin haber visto algun
+        parentesis antes, entonces el de apertura será valido al ponerlo
+      Escenario 2: Sí el parentesis insertado fue puesto antes de un parentesis de cierre 
+         y el parentesis con el que me topé es uno de apertura
+        entonces hicimos esto -> ((hola)), un doble parentesis, entonces es inválido.
+      Escenario 3: Si el parentesis insertado fue puesto antes de un parentesis de apertura
+        y el parentesis con el que nos topamos es uno de cierre, entonces es valido.
+      Escenario 4: Si el parentesis insertado fue puesto antes de un parentesis de apertura
+        y el parentesis con el que nos topamos es uno de apertura, entonces es váido.
+      Escenario 5: Si el parentesis insertado fue puesto antes de un parentesis de cierre
+        y el parentesis con el que me topo es uno de cierre entonces es válido.
+      Escenario 6: Si el parentesis insertado fue puesto antes de un parentesis de apertura
+        y el parentesis con el que me topo es ... ninguno entonces llegamos al incio de la cadena
+        y por lo tanto es válido, o sea ninguno
+     Paso 5) Volver al paso 1, y hacerlo hasta que toda la REGEX haya sido revisada
+
+4) PARENTHESIZE ALL SUBSECTIONS OF FRAGMENTS WITH UNIONS: Ahora con toda la cadena dividida en secciones con
+  parentesis, hay que identificar cuales son los fragmentos -> (((fragmento)(fragmento))(fragmento)(fragmento))
+  y dentro de ellos ver si tienen simbolos de UNION para dividir en fragmento en aun más fragmentos
+     Paso 1) Ir recorriendo la cadena de izquierda a derecha en busqueda de un parentesis de apertura
+     Paso 2) Iniciamos el recorrido por el fragmento y encontrar sus puntos de inicio y fin
+     Paso 3) Identificar si hay mayor o igual a 1 UNIONES en el fragmento, si hay, siguele, sino entonces ve
+       al siguiente fragmento
+          En caso que sí haya:
+              * al final de cada simbolo de UNION poner un parentesis de apertura
+              * antes de cada simbolo de UNION poner un parentesis de cierre
+              * Añadir parentesis de apertura a la mera izquiera del fragmento
+              * Añadir parentesis de cierra a la mera derecha del fragmento
+
+
+#### Por refinar vvv
+5) SOLVE INSIDE OUT: Para lidiar con parentesis, se debe  hacer lo que hay dentro de cada parentesis hacia afuera.
+  O sea, recursivamente ir dentro de los parentesis hasta encontrar el más profundo
+     5b) SI no hay no un solo parentesis, tratarlo todo como si estuviera dentro de 1
+
+6) CHECK FOR ASTERISKS: Si hay un asterisco al final de un parentesis, ese 
+  parentesis se le debe aplicar el operador estrella
