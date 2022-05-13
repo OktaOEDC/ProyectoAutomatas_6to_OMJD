@@ -16,12 +16,17 @@ Reglas a considerar,
   ASTERISKS: No puede haber más de dos o más asteriscos seguidos, si quieres aplicar
     asterisco a algo que ya recibio asterisco debes ponerlo con parentesis previamente
       ej : b*** -> no;  (((b)*)*)* -> sí
-     Paso 1: Ir leyendo de izquierda a derecha a cadena
-     Paso 2: Si veo uno de estos dos simbolos, abortar esta cadena si si siguiente
-       simbolo es alguno de estos dos, referirse a indicacion previa
+    Paso 1: Revisar de izquierda a derecha 
+     Paso 2: Crear una secuencia de ultimos dos caracteres vistos
+     Paso 3: Si esa cadena de ultimos dos es una de las invalidas se cancela esta cadena
   LACK OF VALID CHARACTERS: Sí la cadena solo contiene parentesis, Us mayuscula, y
      asteriscos, entonces es invalida
-      
+  EMPTY FRAGMENTS: Remover fragmentos vacios 
+     ej: abc()abc
+     Paso 1: Revisar de izquierda a derecha 
+     Paso 2: Crear una secuencia de ultimos tres caracteres vistos
+     Paso 3: Si esa cadena de ultimos tres es una de las invalidas (y partes de esta seccion previas),
+       se cancela esta cadena
 
 3) PARENTHESIZE ALL FRAGMENTS: Sí dentro de un parentesis hay algun fragmento 
   tipo parentesis (ej: (hdgusgi(quisde)huohu)) entonces se deberian 
