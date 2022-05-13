@@ -27,13 +27,29 @@ Reglas a considerar,
      Paso 2: Crear una secuencia de ultimos tres caracteres vistos
      Paso 3: Si esa cadena de ultimos tres es una de las invalidas (y partes de esta seccion previas),
        se cancela esta cadena
+  INVALID STARTS AND ENDINDS: No puede inciar con asterisco o Union y no puede acabar con UNION
 
+4) PARENTHESIZE ALL SUBSECTIONS OF FRAGMENTS WITH UNIONS: Ahora con toda la cadena dividida en secciones con
+  parentesis, hay que identificar cuales son los fragmentos -> (((fragmento)(fragmento))(fragmento)(fragmento))
+  y dentro de ellos ver si tienen simbolos de UNION para dividir en fragmento en aun más fragmentos
+     Paso 1) Ir recorriendo la cadena de izquierda a derecha en busqueda de un parentesis de apertura
+     Paso 2) Iniciamos el recorrido por el fragmento y encontrar sus puntos de inicio y fin
+     Paso 3) Identificar si hay mayor o igual a 1 UNIONES en el fragmento, si hay, siguele, sino entonces ve
+       al siguiente fragmento
+          En caso que sí haya:
+              * al final de cada simbolo de UNION poner un parentesis de apertura
+              * antes de cada simbolo de UNION poner un parentesis de cierre
+              * Añadir parentesis de apertura a la mera izquiera del fragmento
+              * Añadir parentesis de cierra a la mera derecha del fragmento
+
+(Tuve que reordenar 3 y 4 para permitir cosa como está -> aU(bUB) que sean aceptadas ) así que la redaccion puede sonar rara ahora
 3) PARENTHESIZE ALL FRAGMENTS: Sí dentro de un parentesis hay algun fragmento 
   tipo parentesis (ej: (hdgusgi(quisde)huohu)) entonces se deberian 
   tomar los demas fragmentos separados como parentesis
      3b)Si no hay parentesis, pasar al siguiente paso
      Paso 1) Recorrer de derecha a izquierda y buscar el primer caracter
-       que no sea algun asterisco sin terminal como predesecor o algun parentesis o simbolo de UNION.
+       que no sea algun asterisco sin terminal o parentesis de cierre
+       como predesecor o algun parentesis o simbolo de UNION.
        Si el caracter tiene un asterisco se debe revisar su caracter anterior 
        para revisar su validez para ser candidato del paso 2, si es invalido
        hay que seguir buscando 
@@ -57,18 +73,7 @@ Reglas a considerar,
         y por lo tanto es válido, o sea ninguno
      Paso 5) Volver al paso 1, y hacerlo hasta que toda la REGEX haya sido revisada
 
-4) PARENTHESIZE ALL SUBSECTIONS OF FRAGMENTS WITH UNIONS: Ahora con toda la cadena dividida en secciones con
-  parentesis, hay que identificar cuales son los fragmentos -> (((fragmento)(fragmento))(fragmento)(fragmento))
-  y dentro de ellos ver si tienen simbolos de UNION para dividir en fragmento en aun más fragmentos
-     Paso 1) Ir recorriendo la cadena de izquierda a derecha en busqueda de un parentesis de apertura
-     Paso 2) Iniciamos el recorrido por el fragmento y encontrar sus puntos de inicio y fin
-     Paso 3) Identificar si hay mayor o igual a 1 UNIONES en el fragmento, si hay, siguele, sino entonces ve
-       al siguiente fragmento
-          En caso que sí haya:
-              * al final de cada simbolo de UNION poner un parentesis de apertura
-              * antes de cada simbolo de UNION poner un parentesis de cierre
-              * Añadir parentesis de apertura a la mera izquiera del fragmento
-              * Añadir parentesis de cierra a la mera derecha del fragmento
+
 
 
 #### Por refinar vvv

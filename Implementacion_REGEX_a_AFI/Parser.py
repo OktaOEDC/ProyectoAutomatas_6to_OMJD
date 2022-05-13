@@ -1,3 +1,6 @@
+from sympy import false
+
+
 class regexParser:
     def __init__(self):
         self.UNION = ""
@@ -7,13 +10,15 @@ class regexParser:
     def removeSpaces(self, chain: str):
         return chain.replace(" ", "")
 
+    def parenthesizeRightSideOfUnion(self, chainList: list)
+        pass
+
     def DEFINE_SYMBOLS(self, UNIONsymbol: str, STARsymbol: str):
         self.UNION = UNIONsymbol
         self.STAR = STARsymbol
         pass
 
     def CHECK_FOR_INVALID_CHAINS(self, chain: str):
-        chain = self.removeSpaces(chain)
         numberOfOpenings = 0
         numberOfClosures = 0
         listOfInvalidSequences = [
@@ -27,8 +32,13 @@ class regexParser:
 
         ]
         onlyHasOperatorAndParenthesis = True
-        lastSequenceOfTwo = "  " # Siempre dos caracteres
+        lastSequenceOfTwo = "  "    # Siempre dos caracteres
         lastSequenceOfThree = "   " # Siempre tres caracteres
+
+        # Revisar si la cadena inicia con Union o asterisco, o si acaba con Union
+        if(chain[0] == "*" or chain[0] == "U" or chain[-1] == "U"):
+            print("Error: Inicio o fin de cadena con carcater de operador")
+            return False
 
         for char in chain:
             # Modificar la ultima secuencia de dos y tres caracteres
@@ -60,3 +70,16 @@ class regexParser:
         if(onlyHasOperatorAndParenthesis):
             print("Error: Solo hay singos de UNION o asteriscos o parentesis")
         return True
+
+    def PARENTHESIZE_ALL_FRAGMENTS_WITH_UNIONS(self, chain: str):
+        chainList = list(chain)
+        chainIndex = len(chainList)-1
+
+        while(chainIndex != -1):
+            char = chain[chainIndex]
+            if(char == self.UNION):
+                # Al encontrar un caracter que sea o UNION
+                self.parenthesizeRightSideOfUnion(chainList)
+                pass
+            chainIndex -= 1
+        pass
