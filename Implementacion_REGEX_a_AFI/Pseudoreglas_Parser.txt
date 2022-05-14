@@ -41,7 +41,7 @@ Reglas a considerar,
        hay que seguir buscando 
        (si fuese uno de apertura no haria eso un parentesis con vacio [no epsilon]?)
      Paso 2) Poner un parentesis de cierre despues de este caracter
-     Paso 3) Recorrer hasta la izquierda hasta encontrar un parentesis
+     Paso 3) Recorrer hasta la izquierda hasta encontrar un parentesis o asiterisco con parentesis como predecesor o simbolo de UNION
      Paso 4) Revisar el escenario para saber si debemos terminar el parentizado o cancelarlo
       Escenario 1: Si el parentesis insertado fue puesto sin haber visto algun
         parentesis antes, entonces el de apertura será valido al ponerlo
@@ -58,6 +58,11 @@ Reglas a considerar,
         y el parentesis con el que me topo es ... ninguno entonces llegamos al incio de la cadena
         y por lo tanto es válido, o sea ninguno
      Paso 5) Volver al paso 1, y hacerlo hasta que toda la REGEX haya sido revisada
+
+3.5) RECURSIVE FRAGMENTS: Eliminar parentesis de sobra cuando el usuario pone\
+    parentesis donde no eran necesarios 
+    ej: (ab*(d*)) = 
+
 
 4) PARENTHESIZE ALL SUBSECTIONS OF FRAGMENTS WITH UNIONS: Ahora con toda la cadena dividida en secciones con
   parentesis, hay que identificar cuales son los fragmentos -> (((fragmento)(fragmento))(fragmento)(fragmento))

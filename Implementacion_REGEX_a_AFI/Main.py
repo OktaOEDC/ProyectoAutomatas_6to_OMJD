@@ -1,7 +1,8 @@
 from Parser import regexParser
 
 #REchain="(ab*c(dUf*a(bUc)ab(cd*)*))kd"
-REchain="(aUbc*d*e*UabUfg)"
+#REchain="aU(bcU(fg))Uef(go)*ab"
+REchain="aUa(((ab*Ub*c*(d)*)*U(ab*)*U(c*Ud*))U(cd*a))"
 
 if __name__ == "__main__":
     RE_parser = regexParser()
@@ -13,4 +14,5 @@ if __name__ == "__main__":
         print("Error en fase 2...")   
         raise NameError("Tu cadena es invalida, corrígela") 
     RE_parser.PARENTHESIZE_ALL_FRAGMENTS(REchain) 
+    RE_parser.CHECK_FOR_INVALID_CHAINS(REchain) # Revalido por si las dudas
     pass

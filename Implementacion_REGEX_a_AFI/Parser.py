@@ -1,6 +1,3 @@
-from sympy import false
-
-
 class regexParser:
     def __init__(self):
         self.UNION = ""
@@ -9,8 +6,6 @@ class regexParser:
     
     def removeSpaces(self, chain: str):
         return chain.replace(" ", "")
-
-    
 
     def DEFINE_SYMBOLS(self, UNIONsymbol: str, STARsymbol: str):
         self.UNION = UNIONsymbol
@@ -72,16 +67,65 @@ class regexParser:
 
     def PARENTHESIZE_ALL_FRAGMENTS(self, chain: str):
         chainList = list(chain)
-        chainIndex = len(chainList)
+        chainIndex = len(chainList)-1
+        parenthesizingMode = False
+        operationSymbols = ["(",")",self.UNION]
+        lastParenthesisSeen = ""
+
         # Primero revisar si tan siquiera hay parentesis
         if ("(" not in chainList or ")" not in chainList):
             return
 
-        while(chainIndex != -1):
+        while(chainIndex > -1):
             char = chain[chainIndex]
-            if(char != ")" or char != self.UNION or char != "("):
-                # Al encontrar un caracter que no sea parentesis o UNION
-                list.insert(chainIndex,")")
-                pass
+            # Escenario 2: Sí instertamos cierre despues de apuertura 
+            #  y antes de cierre: invalido
+            if(char == "(" and lastParenthesisSeen == ")"):
+                chainList = chainCopy
+                parenthesizingMode = False
+                lastParenthesisSeen = ""
+                chainIndex -= 1
+                char = chainList[chainIndex] # Hacer refresh al char
+
+            chain = "".join(chainList)#para debugeo
+
+            #Caso de referencia para los escenarios de la fase 3
+            if(char=="("):
+                lastParenthesisSeen = "("
+            elif(char==")"):
+                lastParenthesisSeen = ")"
+
+            # Buscar algun caracter que no sea parentesis o Union
+            if((char not in operationSymbols) and (not parenthesizingMode)):
+                # Revisar si el caracter que sigue por leer(el previo) es un 
+                #  un parentesis de cierre, sí es así no entrar en modo 
+                #  parentesis porque si no se hace fragmento vacio
+                if(chainList[chainIndex-1] != ")" or chainIndex == 0):
+                    chainCopy = chainList[:]
+                    parenthesizingMode =  True
+                    # Al encontrar un caracter que no sea parentesis o UNION
+                    chainList.insert(chainIndex+1,")")
+                    # Iteramos por los parentesis de cierre para no crear un fragmento vacio
+                    #chainIndex = self.iterateThroughClosingParenthesis(chainList, chainIndex)
+                    chainIndex -= 1 #Nos saltamos uno para que el programa no se tope con el parentesis que acaba de poner
+                    char = chainList[chainIndex] # Se debe cambiar caracter e indice
+
+            chain = "".join(chainList)#para debugeo
+
+            if(parenthesizingMode):
+                # Primero revisar si este asterisco pertenece a una
+                #  terminal o a un parentesis de cierre, le seguimos sí es terminal
+                #  si es parentesis de cierre entonces hay que poner parentesis ahí
+                # Escenario especial #0 ^^
+                if(char == "*" and chain[chainIndex-1] == ")"):
+                    chainList.insert(chainIndex+1,"(")
+                    parenthesizingMode = False
+                    lastParenthesisSeen = ""
+                elif(char == ")" or char == self.UNION or char == "("):
+                    chainList.insert(chainIndex+1,"(")
+                    parenthesizingMode = False
+                    lastParenthesisSeen = ""
+                    
             chainIndex -= 1
-        pass
+            chain = "".join(chainList)#para debugeo
+        print(chain)
