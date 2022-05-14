@@ -59,9 +59,6 @@ Reglas a considerar,
         y por lo tanto es válido, o sea ninguno
      Paso 5) Volver al paso 1, y hacerlo hasta que toda la REGEX haya sido revisada
 
-3.5) RECURSIVE FRAGMENTS: Eliminar parentesis de sobra cuando el usuario pone\
-    parentesis donde no eran necesarios 
-    ej: (ab*(d*)) = 
 
 
 4) PARENTHESIZE ALL SUBSECTIONS OF FRAGMENTS WITH UNIONS: Ahora con toda la cadena dividida en secciones con
@@ -77,6 +74,8 @@ Reglas a considerar,
               * Añadir parentesis de apertura a la mera izquiera del fragmento
               * Añadir parentesis de cierra a la mera derecha del fragmento
 
+La lógica de la fase 3 al incluir el caracter de Union como punto de paro hace
+ que sea incesario implementar la fase 4 porque ya lo está
 
 #### Por refinar vvv
 5) SOLVE INSIDE OUT: Para lidiar con parentesis, se debe  hacer lo que hay dentro de cada parentesis hacia afuera.

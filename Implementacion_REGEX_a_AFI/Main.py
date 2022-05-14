@@ -1,8 +1,10 @@
 from Parser import regexParser
 
-#REchain="(ab*c(dUf*a(bUc)ab(cd*)*))kd"
-#REchain="aU(bcU(fg))Uef(go)*ab"
-REchain="aUa(((ab*Ub*c*(d)*)*U(ab*)*U(c*Ud*))U(cd*a))"
+#REchain ="(ab*c(dUf*a(bUc)ab(cd*)*))kd"
+#REchain ="aU(bcU(fg))Uef(go)*ab"
+#REchain ="aUa(((ab*Ub*c*(d)*)*U(ab*)*U(c*Ud*)))"
+#REchain = "abcdeUfghij*(aUb)UklmnopUa*"
+REchain = "((((a*)*bcUdc)U(cd))k*ue*(bc*(b*e*)*)*U(abcde*(fg)U(ab)))U(be*fg*)"
 
 if __name__ == "__main__":
     RE_parser = regexParser()

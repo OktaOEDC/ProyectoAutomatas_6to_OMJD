@@ -84,7 +84,6 @@ class regexParser:
                 chainList = chainCopy
                 parenthesizingMode = False
                 lastParenthesisSeen = ""
-                chainIndex -= 1
                 char = chainList[chainIndex] # Hacer refresh al char
 
             chain = "".join(chainList)#para debugeo
@@ -100,6 +99,8 @@ class regexParser:
                 # Revisar si el caracter que sigue por leer(el previo) es un 
                 #  un parentesis de cierre, sí es así no entrar en modo 
                 #  parentesis porque si no se hace fragmento vacio
+                # Tambien sirve para no rodear con parentesis fragmentos 
+                #  aferctsados por el operador estrella
                 if(chainList[chainIndex-1] != ")" or chainIndex == 0):
                     chainCopy = chainList[:]
                     parenthesizingMode =  True
@@ -110,7 +111,17 @@ class regexParser:
                     chainIndex -= 1 #Nos saltamos uno para que el programa no se tope con el parentesis que acaba de poner
                     char = chainList[chainIndex] # Se debe cambiar caracter e indice
 
-            chain = "".join(chainList)#para debugeo
+            chain = "".join(chainList) # para debugeo
+
+            # Escenario 2: Sí instertamos cierre despues de apuertura 
+            #  y antes de cierre: invalido
+            # Sí, esto debe hacerse dos veces o si no fragmentos de 
+            #  1 caracter no se revisan bien
+            if(char == "(" and lastParenthesisSeen == ")"):
+                chainList = chainCopy
+                parenthesizingMode = False
+                lastParenthesisSeen = ""
+                char = chainList[chainIndex] # Hacer refresh al char
 
             if(parenthesizingMode):
                 # Primero revisar si este asterisco pertenece a una
@@ -121,10 +132,19 @@ class regexParser:
                     chainList.insert(chainIndex+1,"(")
                     parenthesizingMode = False
                     lastParenthesisSeen = ""
+                # Escenarioa 1,3,4,5 y 6: Ampezamos a prentesizar antes de algun 
+                # parentesis y signo de UNION y nos topamos con otro
+                #  que no sea la combinacion del escenario 2
                 elif(char == ")" or char == self.UNION or char == "("):
                     chainList.insert(chainIndex+1,"(")
                     parenthesizingMode = False
                     lastParenthesisSeen = ""
+                # Escenario especial 7: Iniciamos parentesis como en los demas, pero
+                #  nos topamos con el inicio de la cadena
+                elif(chainIndex == 0):
+                    chainList.insert(chainIndex,"(")
+                    parenthesizingMode = False
+                    lastParenthesisSeen = ""               
                     
             chainIndex -= 1
             chain = "".join(chainList)#para debugeo
