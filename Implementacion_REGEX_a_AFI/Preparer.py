@@ -1,4 +1,4 @@
-class regexParser:
+class regexPreparer:
     def __init__(self):
         self.UNION = ""
         self.STAR = ""
@@ -149,3 +149,4 @@ class regexParser:
             chainIndex -= 1
             chain = "".join(chainList)#para debugeo
         print(chain)
+        return chain
