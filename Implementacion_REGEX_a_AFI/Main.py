@@ -1,5 +1,6 @@
 from Preparer import regexPreparer
 from Fragmenter import regexFragmenter
+import json
 
 #RE_chain = "(ab*c(dUf*a(bUc)ab(cd*)*))kd"
 #RE_chain = "aU(bcU(fg))Uef(go)*ab"
@@ -23,6 +24,8 @@ if __name__ == "__main__":
     RE_parser.CHECK_FOR_INVALID_CHAINS(RE_chain) # Revalido por si las dudas
     # FRAGMENTER
     # Fase 1: Encontrar el nivel máximo de recursión
-    maximinRecursionLevel = RE_fragmenter.findMaximunRecursionLevel(RE_chain)
-    RE_fragmenter.fragmentByRecursion(RE_chain, maximinRecursionLevel, 0, RE_fragmenter.fragmentTree)
+    RE_fragmenter.fragmentByRecursion(RE_chain, 0, RE_fragmenter.fragmentTree)
+    json_object = json.dumps(RE_fragmenter.fragmentTree, indent = 4)
+    with open("jsonTree.json", "wt") as outfile:
+        outfile.write(json_object)
     pass

@@ -1,0 +1,157 @@
+{
+    "fragment0": {
+        "chain": "((((a*)*(bc)U(dc))U(cd))(k*ue*)((bc*)(b*e*)*)*U((abcde*)(fg)U(ab)))*",
+        "indexes": [
+            0,
+            67
+        ],
+        "isLeaf": false,
+        "fragment0": {
+            "chain": "(((a*)*(bc)U(dc))U(cd))",
+            "indexes": [
+                1,
+                23
+            ],
+            "isLeaf": false,
+            "fragment0": {
+                "chain": "((a*)*(bc)U(dc))",
+                "indexes": [
+                    1,
+                    16
+                ],
+                "isLeaf": false,
+                "fragment0": {
+                    "chain": "(a*)*",
+                    "indexes": [
+                        1,
+                        5
+                    ],
+                    "isLeaf": false
+                },
+                "fragment1": {
+                    "chain": "(bc)",
+                    "indexes": [
+                        6,
+                        9
+                    ],
+                    "isLeaf": false
+                },
+                "fragment2": {
+                    "chain": "U",
+                    "indexes": [
+                        10,
+                        10
+                    ]
+                },
+                "fragment3": {
+                    "chain": "(dc)",
+                    "indexes": [
+                        11,
+                        14
+                    ],
+                    "isLeaf": false
+                }
+            },
+            "fragment1": {
+                "chain": "U",
+                "indexes": [
+                    17,
+                    17
+                ]
+            },
+            "fragment2": {
+                "chain": "(cd)",
+                "indexes": [
+                    18,
+                    21
+                ],
+                "isLeaf": false
+            }
+        },
+        "fragment1": {
+            "chain": "(k*ue*)",
+            "indexes": [
+                24,
+                30
+            ],
+            "isLeaf": false
+        },
+        "fragment2": {
+            "chain": "((bc*)(b*e*)*)*",
+            "indexes": [
+                31,
+                45
+            ],
+            "isLeaf": false
+        },
+        "fragment3": {
+            "chain": "U",
+            "indexes": [
+                46,
+                46
+            ]
+        },
+        "fragment4": {
+            "chain": "((abcde*)(fg)U(ab))",
+            "indexes": [
+                47,
+                65
+            ],
+            "isLeaf": false,
+            "fragment0": {
+                "chain": "(abcde*)",
+                "indexes": [
+                    1,
+                    8
+                ],
+                "isLeaf": false
+            },
+            "fragment1": {
+                "chain": "(fg)",
+                "indexes": [
+                    9,
+                    12
+                ],
+                "isLeaf": false
+            },
+            "fragment2": {
+                "chain": "U",
+                "indexes": [
+                    13,
+                    13
+                ]
+            },
+            "fragment3": {
+                "chain": "(ab)",
+                "indexes": [
+                    14,
+                    17
+                ],
+                "isLeaf": false
+            }
+        }
+    },
+    "fragment1": {
+        "chain": "U",
+        "indexes": [
+            68,
+            68
+        ]
+    },
+    "fragment2": {
+        "chain": "(be*fg*)",
+        "indexes": [
+            69,
+            76
+        ],
+        "isLeaf": false,
+        "fragment0": {
+            "chain": "(be*fg*)",
+            "indexes": [
+                0,
+                7
+            ],
+            "isLeaf": true
+        }
+    }
+}

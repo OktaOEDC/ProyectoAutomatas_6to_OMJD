@@ -78,9 +78,11 @@ La lógica de la fase 3 al incluir el caracter de Union como punto de paro hace
  que sea incesario implementar la fase 4 porque ya lo está
 
 #### Por refinar vvv
-5) SOLVE INSIDE OUT: Para lidiar con parentesis, se debe  hacer lo que hay dentro de cada parentesis hacia afuera.
-  O sea, recursivamente ir dentro de los parentesis hasta encontrar el más profundo
-     5b) SI no hay no un solo parentesis, tratarlo todo como si estuviera dentro de 1
-
-6) CHECK FOR ASTERISKS: Si hay un asterisco al final de un parentesis, ese 
-  parentesis se le debe aplicar el operador estrella
+7) FRAGMENT THE CHAIN: Crearemos un aerbol de recursion que creara en trozos chiquitos las partes
+    de la cadena y como se resolverán
+    Paso 1) Recorrer de izquierda a derecha la cadena
+    Paso 2) Buscar el primer parentesis
+    Paso 3) Buscar su parentesis de cierre
+    Paso 4) Hacer un analisis si era la cadena entera (coincide el indice de cierre) con el de inicio
+    Paso 5) Sí es la cadena entera no subir el nivel de recursion como valor en la llamada
+      Paso 5b) Sí la cadena no es entera sí subir el nivel de recursion como valor en la llamada

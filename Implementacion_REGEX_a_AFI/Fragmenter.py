@@ -12,23 +12,33 @@ class regexFragmenter():
         self.fragmentTree = {}
         pass
 
-    def findMaximunRecursionLevel(self, chain: str):
-        # El nivel maximo de recursion es el numero más alto
-        #  de parentesis de entrada que puedes encontrar en 
-        #  algun caracter menos el numero de cierres
-        currentRecursionlevel = 0
-        maximunRecursionlevel = 0 
-        for char in chain:
-            if(char == "("):
-                currentRecursionlevel  +=1
-                if(currentRecursionlevel > maximunRecursionlevel):
-                    maximunRecursionlevel = currentRecursionlevel
-            elif(char==")"):
-                currentRecursionlevel -= 1
-            pass
-        return maximunRecursionlevel
+    def isChainLeaf(self, chain: str):
+        # Si es una hojita llegamos al punto maximo de recursion para esta parte de la cadena
+        if(chain.count("(") == 1):
+            return True
+        else:
+            return False
+        pass
 
-    def fragmentByRecursion(self, chain: str, maximunRecursionLevel: int, targetRecursionLevel: int, treeNode: dict):
+    def isChainWhole(self, chain: str):
+        currentRecursionLevel = 0
+        chainList = list(chain)
+        for charIndex in range(len(chain)):
+            char = chain[charIndex]
+            if(char == "("):
+                currentRecursionLevel  +=1
+            elif(char==")"):
+                currentRecursionLevel -= 1
+            if((currentRecursionLevel == 0) and (charIndex == len(chain)-1) or charIndex == len(chain)):
+                # Si llegamos al parentesis de cierre antes del fin de la cadena:
+                # Tambien consideramos que el parentesis pueda estar antes de un asterisco
+                # y no, no es posible que esto pase -> (abc)e dado que todo se parentesiza
+                # así que ver una terminal sola al final y confundirla con asterisco no es posible
+                return True
+            elif((currentRecursionLevel == 0) and ((charIndex != len(chain)-1) or (charIndex != len(chain)))):
+                return False
+
+    def fragmentByRecursion(self, chain: str, targetRecursionLevel: int, treeNode: dict):
         # Divide
         #  la cadena varias veces por nivel de fragmentación
         #  creando varias listas
@@ -80,6 +90,21 @@ class regexFragmenter():
                 treeNode[f"fragment{fragmentNumber}"] = {}
                 treeNode[f"fragment{fragmentNumber}"]["chain"] = templistString
                 treeNode[f"fragment{fragmentNumber}"]["indexes"] = (startingIndex,endingIndex)
+                treeNode[f"fragment{fragmentNumber}"]["isLeaf"] = self.isChainLeaf(chain)
+                if((not self.isChainLeaf(chain)) and (self.isChainWhole(templistString))):
+                    self.fragmentByRecursion(
+                        treeNode[f"fragment{fragmentNumber}"]["chain"],
+                        targetRecursionLevel+0, 
+                        treeNode[f"fragment{fragmentNumber}"]
+                    )
+                elif((not self.isChainLeaf(chain)) and (not self.isChainWhole(templistString))):
+                    self.fragmentByRecursion(
+                        treeNode[f"fragment{fragmentNumber}"]["chain"],
+                        targetRecursionLevel+1, 
+                        treeNode[f"fragment{fragmentNumber}"]
+                    )
+                elif(self.isChainLeaf(chain)):
+                    return
                 fragmentNumber += 1
                 wroteStartingIndex = False
                 templist = []
