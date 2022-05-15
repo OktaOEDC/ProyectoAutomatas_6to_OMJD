@@ -24,5 +24,5 @@ if __name__ == "__main__":
     # FRAGMENTER
     # Fase 1: Encontrar el nivel máximo de recursión
     maximinRecursionLevel = RE_fragmenter.findMaximunRecursionLevel(RE_chain)
-    RE_fragmenter.fragmentByRecursion(RE_chain, maximinRecursionLevel)
+    RE_fragmenter.fragmentByRecursion(RE_chain, maximinRecursionLevel, 0, RE_fragmenter.fragmentTree)
     pass
