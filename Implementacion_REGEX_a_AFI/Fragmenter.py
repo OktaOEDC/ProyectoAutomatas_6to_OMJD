@@ -87,10 +87,12 @@ class regexFragmenter():
                     pass
                 writingList = False
                 templistString = "".join(templist)
+                if(templistString=="((bc*)(b*e*)*)*"):
+                    x = 5
                 treeNode[f"fragment{fragmentNumber}"] = {}
                 treeNode[f"fragment{fragmentNumber}"]["chain"] = templistString
                 treeNode[f"fragment{fragmentNumber}"]["indexes"] = (startingIndex,endingIndex)
-                treeNode[f"fragment{fragmentNumber}"]["isLeaf"] = self.isChainLeaf(chain)
+                treeNode[f"fragment{fragmentNumber}"]["isLeaf"] = self.isChainLeaf(templistString)
                 if((not self.isChainLeaf(chain)) and (self.isChainWhole(templistString))):
                     self.fragmentByRecursion(
                         treeNode[f"fragment{fragmentNumber}"]["chain"],
