@@ -54,10 +54,7 @@ class regexFragmenter():
         writingList = False
         templistString = ""
         templist = []
-        wroteStartingIndex = False
         charIndex = 0
-        startingIndex = 0
-        endingIndex = 0
         fragmentNumber = 0
 
         while(charIndex < len(chain)):
@@ -70,9 +67,6 @@ class regexFragmenter():
 
             if(currentRecursionLevel == level):
                 writingList = True
-                if(not wroteStartingIndex):
-                    startingIndex = charIndex
-                    wroteStartingIndex = True
 
             if(writingList):
                 templist.append(char)
@@ -84,7 +78,6 @@ class regexFragmenter():
                 # NOTA -> CHAIN != FRAGMENT; uno es la cadena que llega y otro es el fragmento a recurrir
                 # Revisar si el siguiente caracter de este es asterisco, para llevarnoslo tambien
                 #  y saltarnoslo en la siguiente iteracion de esta recursion
-                endingIndex = charIndex
                 isThisFragmentLeaf = self.isThisFragmentLeaf(templistString)
                 isChainWhole = self.isChainWhole(templistString, chain)
                 try:
@@ -92,7 +85,6 @@ class regexFragmenter():
                         templist.append(self.STAR)
                         templistString = "".join(templist)
                         charIndex += 1
-                        endingIndex += 1
                 except:
                     # Era el final de la cadena por lo tanto no hay asterisco
                     # si alguien sabe una forma más limpia de evitar esto digame
@@ -101,8 +93,6 @@ class regexFragmenter():
 
                 treeNode[f"fragment{fragmentNumber}"] = {}
                 treeNode[f"fragment{fragmentNumber}"]["chain"] = templistString
-                treeNode[f"fragment{fragmentNumber}"]["indexes"] = (
-                    startingIndex, endingIndex)
                 treeNode[f"fragment{fragmentNumber}"]["isLeaf"] = isThisFragmentLeaf
                 if((not isThisFragmentLeaf) and (isChainWhole)):
                     self.fragmentByRecursion(
