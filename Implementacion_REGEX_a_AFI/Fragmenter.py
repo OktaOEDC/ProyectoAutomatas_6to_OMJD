@@ -12,7 +12,7 @@ class regexFragmenter():
         self.fragmentTree = {}
         pass
 
-    def isChainLeaf(self, chain: str):
+    def isThisFragmentLeaf(self, chain: str):
         # Si es una hojita llegamos al punto maximo de recursion para esta parte de la cadena
         if(chain.count("(") == 1):
             return True
@@ -73,9 +73,12 @@ class regexFragmenter():
                 templist.append(char)
 
             if((writingList) and (currentRecursionLevel+1) == level and (char == ")")):
+                ## NOTA -> CHAIN != FRAGMENT; uno es la cadena que llega y otro es el fragmento a recurrir
                 # Revisar si el siguiente caracter de este es asterisco, para llevarnoslo tambien
                 #  y saltarnoslo en la siguiente iteracion de esta recursion
                 endingIndex = charIndex
+                isThisFragmentLeaf = self.isThisFragmentLeaf(templistString)
+                isChainWhole = self.isChainWhole(chain)
                 try:
                     if(chain[charIndex+1]==self.STAR):
                         templist.append(self.STAR)
@@ -87,25 +90,25 @@ class regexFragmenter():
                     pass
                 writingList = False
                 templistString = "".join(templist)
-                if(templistString=="((bc*)(b*e*)*)*"):
+                if(chain == "(((a*)*(bc)U(dc))U(cd))"):
                     x = 5
                 treeNode[f"fragment{fragmentNumber}"] = {}
                 treeNode[f"fragment{fragmentNumber}"]["chain"] = templistString
                 treeNode[f"fragment{fragmentNumber}"]["indexes"] = (startingIndex,endingIndex)
-                treeNode[f"fragment{fragmentNumber}"]["isLeaf"] = self.isChainLeaf(templistString)
-                if((not self.isChainLeaf(chain)) and (self.isChainWhole(templistString))):
+                treeNode[f"fragment{fragmentNumber}"]["isLeaf"] = self.isThisFragmentLeaf(templistString)
+                if((not isThisFragmentLeaf) and (isChainWhole)):
                     self.fragmentByRecursion(
                         treeNode[f"fragment{fragmentNumber}"]["chain"],
-                        targetRecursionLevel+0, 
+                        targetRecursionLevel, 
                         treeNode[f"fragment{fragmentNumber}"]
                     )
-                elif((not self.isChainLeaf(chain)) and (not self.isChainWhole(templistString))):
+                elif((not isThisFragmentLeaf) and (not isChainWhole)):
                     self.fragmentByRecursion(
                         treeNode[f"fragment{fragmentNumber}"]["chain"],
-                        targetRecursionLevel+1, 
+                        1, 
                         treeNode[f"fragment{fragmentNumber}"]
                     )
-                elif(self.isChainLeaf(chain)):
+                elif(isThisFragmentLeaf):
                     return
                 fragmentNumber += 1
                 wroteStartingIndex = False

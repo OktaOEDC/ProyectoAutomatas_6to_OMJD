@@ -23,7 +23,6 @@ if __name__ == "__main__":
     RE_chain = RE_parser.PARENTHESIZE_ALL_FRAGMENTS(RE_chain) 
     RE_parser.CHECK_FOR_INVALID_CHAINS(RE_chain) # Revalido por si las dudas
     # FRAGMENTER
-    # Fase 1: Encontrar el nivel máximo de recursión
     RE_fragmenter.fragmentByRecursion(RE_chain, 0, RE_fragmenter.fragmentTree)
     json_object = json.dumps(RE_fragmenter.fragmentTree, indent = 4)
     with open("jsonTree.json", "wt") as outfile:

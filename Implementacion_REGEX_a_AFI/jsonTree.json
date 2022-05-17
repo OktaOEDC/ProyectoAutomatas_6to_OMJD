@@ -27,29 +27,6 @@
                         5
                     ],
                     "isLeaf": true
-                },
-                "fragment1": {
-                    "chain": "(bc)",
-                    "indexes": [
-                        6,
-                        9
-                    ],
-                    "isLeaf": true
-                },
-                "fragment2": {
-                    "chain": "U",
-                    "indexes": [
-                        10,
-                        10
-                    ]
-                },
-                "fragment3": {
-                    "chain": "(dc)",
-                    "indexes": [
-                        11,
-                        14
-                    ],
-                    "isLeaf": true
                 }
             },
             "fragment1": {
@@ -75,60 +52,6 @@
                 30
             ],
             "isLeaf": true
-        },
-        "fragment2": {
-            "chain": "((bc*)(b*e*)*)*",
-            "indexes": [
-                31,
-                45
-            ],
-            "isLeaf": false
-        },
-        "fragment3": {
-            "chain": "U",
-            "indexes": [
-                46,
-                46
-            ]
-        },
-        "fragment4": {
-            "chain": "((abcde*)(fg)U(ab))",
-            "indexes": [
-                47,
-                65
-            ],
-            "isLeaf": false,
-            "fragment0": {
-                "chain": "(abcde*)",
-                "indexes": [
-                    1,
-                    8
-                ],
-                "isLeaf": true
-            },
-            "fragment1": {
-                "chain": "(fg)",
-                "indexes": [
-                    9,
-                    12
-                ],
-                "isLeaf": true
-            },
-            "fragment2": {
-                "chain": "U",
-                "indexes": [
-                    13,
-                    13
-                ]
-            },
-            "fragment3": {
-                "chain": "(ab)",
-                "indexes": [
-                    14,
-                    17
-                ],
-                "isLeaf": true
-            }
         }
     },
     "fragment1": {
@@ -144,14 +67,6 @@
             69,
             76
         ],
-        "isLeaf": true,
-        "fragment0": {
-            "chain": "(be*fg*)",
-            "indexes": [
-                0,
-                7
-            ],
-            "isLeaf": true
-        }
+        "isLeaf": true
     }
 }
