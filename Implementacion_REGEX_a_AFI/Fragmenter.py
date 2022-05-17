@@ -71,7 +71,7 @@ class regexFragmenter():
             if(writingList):
                 templist.append(char)
 
-            if(chain == "((((a*)*(bc)U(dc))U(cd))(k*ue*)((bc*)(b*e*)*)*U((abcde*)(fg)U(ab)))"):
+            if(chain == "((a*)*(bc)U(dc))"):
                 x = 5
             if((writingList) and (currentRecursionLevel+1) == level and (char == ")")):
                 templistString = "".join(templist)
@@ -107,16 +107,13 @@ class regexFragmenter():
                         treeNode[f"fragment{fragmentNumber}"]
                     )
                 elif(isThisFragmentLeaf):
-                    return
+                    pass # Hora de crackear ventanas B)
                 fragmentNumber += 1
-                wroteStartingIndex = False
                 templist = []
 
             if((not writingList) and (char == self.UNION)):
                 treeNode[f"fragment{fragmentNumber}"] = {}
                 treeNode[f"fragment{fragmentNumber}"]["chain"] = self.UNION
-                treeNode[f"fragment{fragmentNumber}"]["indexes"] = (
-                    charIndex, charIndex)
                 fragmentNumber += 1
                 pass
 
