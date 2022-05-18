@@ -11,7 +11,7 @@ def main():
 
 def datainput():
     #leer y separar las reglas por ','
-    Reglas=input(print('Introduzca todas las reglas separadas por una \',\' \n la regla tiene que ser escritade la siguiente forma: S->a|bc|D: ')).strip().replace(" ","").split(",")
+    Reglas=input(print('Introduzca todas las reglas separadas por una \',\' \n la regla tiene que ser escrita de la siguiente forma: S->a|bc|D: ')).strip().replace(" ","").split(",")
 
     #llamar al separador para generar un diccionario con las Variables y lo que producen.
     separador(Reglas)
@@ -131,21 +131,17 @@ def removeEmpty(Variables,terminales,diccionario):
             terminales.remove(i)
     
 
-
-    for i in diccionario: #Remover vacios en reglas
-        contador=0
-        print(diccionario[i],'antes de remover')
+    #Remover repetidos en las reglas
+    for i in diccionario:
+        diccionario[i]=list(dict.fromkeys(diccionario[i]))
+    #Remover vacios en reglas    
+    for i in diccionario:
         for u in diccionario[i]:
-            print(u, 'esto es u')
             if u=='':
                 diccionario[i].remove(u)
-            contador=contador+1
-        print(contador,'contador final')
-        print(diccionario,'este es el dic sin espacios')
     for i in diccionario: #si existe una regla sin productos, invalidar el programa y salir.
-        for u in diccionario[i]:
-            if u=='':
-                errorReglaVacia()
+        if bool(diccionario[i])==False:
+            errorReglaVacia()
     
     
 
