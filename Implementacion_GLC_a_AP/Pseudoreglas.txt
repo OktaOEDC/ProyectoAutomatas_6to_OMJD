@@ -1,1 +1,10 @@
-Aquí se haciendo tu explicacion de como harás el parser de esta implementación Daniel
+GLC a AP.
+
+La entrada de datos sera meramente mediante las reglas, se tienen en cuenta los siguientes datos:
+    Variables: Deberán ser una letra mayúscula para ser validas, no cuentan letras con tilde.
+    Terminales: Deberán ser cualquier caracter externo a las Variables
+    Reglas: Deberan ser escritas de la siguiente forma: R->a|ba|A|BA|R+F, el nombre de las Variables debera ser correspondiente a las Variables declaradas.
+        o en su caso especial, escribir las reglas individualmente de la siguiente forma: R->a,R->ba,... de forma individual (uno por entrada).
+            *La entrada individual se vera util cuando se olvide escribir alguna regla, el objetivo es que se una a las declaradas anteriormente.
+    Variable inicial: Se tomará en cuenta la primera variable escrita como la variable inicial.
+
