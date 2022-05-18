@@ -1,5 +1,7 @@
-from ast import Delete
-from pickle import FALSE
+from ast import Delete, excepthandler
+from pickle import EMPTY_LIST, FALSE
+
+from numpy import empty
 
 
 def main():
@@ -20,11 +22,32 @@ def separador(Reglas):
     diccionario={}
     Variables=[]
     for i in Reglas:
-        i= i.split('->')
+        i = i.split('->')
+        #dividir los resultantes de las reglas y crear un diccionario con las mismas
+        dic_keys=list(diccionario.keys())
+        if i[0] in Variables: #Si la variable ya existe, solo agregar los productos a la variable correspondiente.
+            #try:
+                print(i, 'entre y estos son mis valores')
+                if '|' in i[1]:
+                    temp=i[1].split('|')
+                    print(temp,'mi temp')
+                    for valortagregable in temp: #separar los valores para que entren individuales y no como una lista.
+                        diccionario[i[0]].append(str(valortagregable))
+                else:
+                    if type(diccionario[i[0]])!=type(list): #Si el valor de la llave no es una lista, conviertelo y agrega el producto.
+                        diccionario[i[0]]=list(diccionario[i[0]])
+                        diccionario[i[0]].append(i[1])
+                    else:
+                        diccionario[i[0]].append(i[1])
+            #except:
+             #   print('Sus reglas no se encuentran separadas correctamente.')
+              #  quit()
+        else:
+            diccionario[i[0]]=i[1].split('|')
         #agregar i[0] a mi lista de variables
         Variables.append(i[0])
-        #dividir los resultantes de las reglas y crear un diccionario con las mismas
-        diccionario[i[0]]=i[1].split('|')
+        #Remover variables duplicadas
+        Variables=list(dict.fromkeys(Variables))
     #validar la informacion
     validarVariables(Variables,diccionario)#Las variables se agregan al array en orden, por lo que siempre Variables[0] es la variable inicial.
     
@@ -51,29 +74,8 @@ def validarVariables(Variables=[], diccionario={}):
 
 
         if n==True:
-            print('No se encontro ningun error, programa ejecutado con exito')
-            print('Las variables son: ',Variables)
-            print('Las terminales son: ',terminales)
-            print('las reglas son: ',diccionario)
+            removeEmpty(Variables,terminales,diccionario)
             n=False
-
-
-
-def validarTerminales(terminales=[],alfabetoVariables=[],Variables=[]):
-        #si un valor en 'terminales' se encuentra en 'alfabetoVariables' removerlo.
-    for i in terminales:
-        if i in alfabetoVariables:
-            if i not in Variables:
-                errorVariableNoDeterminada() #caso especial.
-            terminales.remove(i)
-    terminales=list(dict.fromkeys(terminales)) #remover duplicados en las terminales
-    return(terminales)
-
-
-
-def errorVariableNoDeterminada(): #Caso utilizado en 'validarTerminales' para cuando una variable es utilizada como parte de un producto, pero no produce nada.
-    print('Se ha detectado una variable utilizada que no contiene ninguna regla, el lenguaje introducido no es valido, el programa se terminara.')
-    quit()
 
 
 
@@ -93,5 +95,64 @@ def generarTerminales(Variables=[], diccionario={}):
                 terminales.append(z)
             terminales.remove(i)
     return(terminales)
+
+
+
+def validarTerminales(terminales=[],alfabetoVariables=[],Variables=[]):
+        #si un valor en 'terminales' se encuentra en 'alfabetoVariables' removerlo.
+    for i in terminales:
+        if i in alfabetoVariables:
+            if i not in Variables:
+                errorVariableNoDeterminada() #caso especial.
+            terminales.remove(i)
+    terminales=list(dict.fromkeys(terminales)) #remover duplicados en las terminales
+    return(terminales)
+
+
+
+def errorVariableNoDeterminada(): #Caso utilizado en 'validarTerminales' para cuando una variable es utilizada como parte de un producto, pero no produce nada.
+    print('Se ha detectado una variable utilizada que no contiene ninguna regla, el lenguaje introducido no es valido, el programa se terminara.')
+    quit()
+def errorReglaVacia():
+    print('Se ha detectado una regla declarada sin ningun producto, el lenguaje introducido no es valido, el programa terminara.')
+    quit()
+
+
+def removeEmpty(Variables,terminales,diccionario):
+    for i in Variables: #Remover vacios en variables
+        i=i.strip()
+        if i=="":
+            Variables.remove(i)
+    
+    
+    for i in terminales: #Remover vacios en terminales
+        i=i.strip()
+        if i=="":
+            terminales.remove(i)
+    
+
+
+    for i in diccionario: #Remover vacios en reglas
+        contador=0
+        print(diccionario[i],'antes de remover')
+        for u in diccionario[i]:
+            print(u, 'esto es u')
+            if u=='':
+                diccionario[i].remove(u)
+            contador=contador+1
+        print(contador,'contador final')
+        print(diccionario,'este es el dic sin espacios')
+    for i in diccionario: #si existe una regla sin productos, invalidar el programa y salir.
+        for u in diccionario[i]:
+            if u=='':
+                errorReglaVacia()
+    
+    
+
+    print('Variables finales', Variables )
+    print('Terminales finales', terminales)
+    print('Reglas ',diccionario)
+
+
 
 main()
