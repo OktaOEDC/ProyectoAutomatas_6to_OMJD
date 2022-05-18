@@ -7,12 +7,15 @@ Farmentos chiquitos primero (muy dentro de la recursion)
 
 
 class regexFragmenter():
-    def __init__(self, union: str, star: str):
+    def __init__(self):
         self.fragmentTree = {}
-        self.UNION = union
-        self.STAR = star
+        self.UNION = ""
+        self.STAR = ""
         self.fragmentTree = {}
-        pass
+
+    def DEFINE_SYMBOLS(self, UNIONsymbol: str, STARsymbol: str):
+        self.UNION = UNIONsymbol
+        self.STAR = STARsymbol
 
     def isThisFragmentLeaf(self, chain: str):
         # Si es una hojita llegamos al punto maximo de recursion para esta parte de la cadena
@@ -20,29 +23,12 @@ class regexFragmenter():
             return True
         else:
             return False
-        pass
 
     def isChainWhole(self, fragment: str, chain: str):
         if(fragment == chain):
             return True
         else:
             return False
-        # currentRecursionLevel = 0
-        # chainList = list(chain)
-        # for charIndex in range(len(chain)):
-        #     char = chain[charIndex]
-        #     if(char == "("):
-        #         currentRecursionLevel  +=1
-        #     elif(char==")"):
-        #         currentRecursionLevel -= 1
-        #     if((currentRecursionLevel == 0) and (charIndex == len(chain)-1) or charIndex == len(chain)):
-        #         # Si llegamos al parentesis de cierre antes del fin de la cadena:
-        #         # Tambien consideramos que el parentesis pueda estar antes de un asterisco
-        #         # y no, no es posible que esto pase -> (abc)e dado que todo se parentesiza
-        #         # así que ver una terminal sola al final y confundirla con asterisco no es posible
-        #         return True
-        #     elif((currentRecursionLevel == 0) and ((charIndex != len(chain)-1) or (charIndex != len(chain)))):
-        #         return False
 
     def fragmentByRecursion(self, chain: str, targetRecursionLevel: int, treeNode: dict):
         # Divide
@@ -71,8 +57,6 @@ class regexFragmenter():
             if(writingList):
                 templist.append(char)
 
-            if(chain == "((a*)*(bc)U(dc))"):
-                x = 5
             if((writingList) and (currentRecursionLevel+1) == level and (char == ")")):
                 templistString = "".join(templist)
                 # NOTA -> CHAIN != FRAGMENT; uno es la cadena que llega y otro es el fragmento a recurrir
@@ -114,8 +98,8 @@ class regexFragmenter():
             if((not writingList) and (char == self.UNION)):
                 treeNode[f"fragment{fragmentNumber}"] = {}
                 treeNode[f"fragment{fragmentNumber}"]["chain"] = self.UNION
+                treeNode[f"fragment{fragmentNumber}"]["isLeaf"] = True
                 fragmentNumber += 1
-                pass
 
             templistString = "".join(templist)
             charIndex += 1

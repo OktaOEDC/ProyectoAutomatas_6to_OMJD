@@ -1,81 +1,90 @@
 {
-    "fragment0": {
-        "chain": "((((a*)*(bc)U(dc))U(cd))(k*ue*)((bc*)(b*e*)*)*U((abcde*)(fg)U(ab)))*",
+    "Root": {
+        "chain": "((((a*)*(bc)U(dc))U(cd))(k*ue*)((bc*)(b*e*)*)*U((abcde*)(fg)U(ab)))*U(be*fg*)",
         "isLeaf": false,
         "fragment0": {
-            "chain": "(((a*)*(bc)U(dc))U(cd))",
+            "chain": "((((a*)*(bc)U(dc))U(cd))(k*ue*)((bc*)(b*e*)*)*U((abcde*)(fg)U(ab)))*",
             "isLeaf": false,
             "fragment0": {
-                "chain": "((a*)*(bc)U(dc))",
+                "chain": "(((a*)*(bc)U(dc))U(cd))",
                 "isLeaf": false,
                 "fragment0": {
-                    "chain": "(a*)*",
-                    "isLeaf": true
+                    "chain": "((a*)*(bc)U(dc))",
+                    "isLeaf": false,
+                    "fragment0": {
+                        "chain": "(a*)*",
+                        "isLeaf": true
+                    },
+                    "fragment1": {
+                        "chain": "(bc)",
+                        "isLeaf": true
+                    },
+                    "fragment2": {
+                        "chain": "U",
+                        "isLeaf": true
+                    },
+                    "fragment3": {
+                        "chain": "(dc)",
+                        "isLeaf": true
+                    }
                 },
                 "fragment1": {
-                    "chain": "(bc)",
+                    "chain": "U",
                     "isLeaf": true
                 },
                 "fragment2": {
-                    "chain": "U"
-                },
-                "fragment3": {
-                    "chain": "(dc)",
+                    "chain": "(cd)",
                     "isLeaf": true
                 }
             },
             "fragment1": {
-                "chain": "U"
+                "chain": "(k*ue*)",
+                "isLeaf": true
             },
             "fragment2": {
-                "chain": "(cd)",
+                "chain": "((bc*)(b*e*)*)*",
+                "isLeaf": false,
+                "fragment0": {
+                    "chain": "(bc*)",
+                    "isLeaf": true
+                },
+                "fragment1": {
+                    "chain": "(b*e*)*",
+                    "isLeaf": true
+                }
+            },
+            "fragment3": {
+                "chain": "U",
                 "isLeaf": true
+            },
+            "fragment4": {
+                "chain": "((abcde*)(fg)U(ab))",
+                "isLeaf": false,
+                "fragment0": {
+                    "chain": "(abcde*)",
+                    "isLeaf": true
+                },
+                "fragment1": {
+                    "chain": "(fg)",
+                    "isLeaf": true
+                },
+                "fragment2": {
+                    "chain": "U",
+                    "isLeaf": true
+                },
+                "fragment3": {
+                    "chain": "(ab)",
+                    "isLeaf": true
+                }
             }
         },
         "fragment1": {
-            "chain": "(k*ue*)",
+            "chain": "U",
             "isLeaf": true
         },
         "fragment2": {
-            "chain": "((bc*)(b*e*)*)*",
-            "isLeaf": false,
-            "fragment0": {
-                "chain": "(bc*)",
-                "isLeaf": true
-            },
-            "fragment1": {
-                "chain": "(b*e*)*",
-                "isLeaf": true
-            }
-        },
-        "fragment3": {
-            "chain": "U"
-        },
-        "fragment4": {
-            "chain": "((abcde*)(fg)U(ab))",
-            "isLeaf": false,
-            "fragment0": {
-                "chain": "(abcde*)",
-                "isLeaf": true
-            },
-            "fragment1": {
-                "chain": "(fg)",
-                "isLeaf": true
-            },
-            "fragment2": {
-                "chain": "U"
-            },
-            "fragment3": {
-                "chain": "(ab)",
-                "isLeaf": true
-            }
+            "chain": "(be*fg*)",
+            "isLeaf": true
         }
-    },
-    "fragment1": {
-        "chain": "U"
-    },
-    "fragment2": {
-        "chain": "(be*fg*)",
-        "isLeaf": true
     }
 }
