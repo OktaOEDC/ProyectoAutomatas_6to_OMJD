@@ -1,4 +1,4 @@
-from PySimpleAutomata import NFA, automata_IO
+from PySimpleAutomata import automata_IO
 import copy
 
 class regexAutomataMaker():
@@ -9,7 +9,7 @@ class regexAutomataMaker():
             # Arreglo de alfabeto (los caracteres en la regex)
             "alphabet": [],
             "states": [],             # Arreglo de estados
-            "initial_states": [],      # Estado inicial (pide lista pero no es como que le vayamos a dar > de 1)
+            "initial_state": "",      # Estado inicial 
             "accepting_states": [],   # Arreglo de estados de aceptacion
             # Arreglo de arreglos de transiciones [estadoSalida, parteCadena, estadollegada]
             "transitions": {}
@@ -45,7 +45,6 @@ class regexAutomataMaker():
         # Conseguir las partes para aplicar operaciones
         while(charIndex < (len(chain))):
             char = chain[charIndex]
-            print(char)
             if(charIndex != (len(chain)-1)):
                 if((chain[charIndex+1] == self.STAR) and (char != "(" and char != ")")):
                     # Si no es el ultimo caracter de la cadena y el caracter que sige es una estrella
@@ -55,7 +54,6 @@ class regexAutomataMaker():
                 elif((chain[charIndex+1] != self.STAR) and (char != "(" and char != ")")):
                     parts.append(f"{char}")
             charIndex += 1
-        
         # Crear automatas de cada parte
         for part in parts:
             tempAutomata = copy.deepcopy(self.AFITemplate)
@@ -65,17 +63,21 @@ class regexAutomataMaker():
                 state1 = self.getNextAutomataStateID()
                 state2 = self.getNextAutomataStateID()
                 tempAutomata["states"] = [state1, state2]
-                tempAutomata["initial_states"] = [state1]
+                tempAutomata["initial_state"] = state1
                 tempAutomata["accepting_states"] = [state2]
                 tempAutomata["alphabet"] = [letter]
                 tempAutomata["transitions"] = {(state1,letter):state2}
+                automata_IO.dfa_to_dot(
+                    tempAutomata,
+                    str(self.getNextAutomataID()),
+                    "./Automatas/")
             elif(len(part) == 2):
                 # ej: b*
                 state1 = self.getNextAutomataStateID()
                 state2 = self.getNextAutomataStateID()
                 state3 = self.getNextAutomataStateID()
                 tempAutomata["states"] = [state1, state2, state3]
-                tempAutomata["initial_states"] = [state1]
+                tempAutomata["initial_state"] = state1
                 tempAutomata["accepting_states"] = [state1, state3]
                 tempAutomata["alphabet"] = [letter, "ε"]
                 tempAutomata["transitions"] = {
@@ -83,7 +85,10 @@ class regexAutomataMaker():
                     (state2,letter):state3,
                     (state3,"ε"):state2
                 }
-                automata_IO.nfa_to_dot(tempAutomata, str(self.getNextAutomataID()), "./")
+                automata_IO.dfa_to_dot(
+                    tempAutomata,
+                    str(self.getNextAutomataID()),
+                    "./Automatas/")
             x = 5
 
     def findAutomataLeafs(self, treeNode):

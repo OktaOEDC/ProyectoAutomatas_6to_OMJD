@@ -13,12 +13,12 @@
                 "fragment0": {
                     "chain": "(a*)*",
                     "isLeaf": true,
-                    "AFI": []
+                    "AFI": "{}"
                 },
                 "fragment1": {
                     "chain": "(bc)",
                     "isLeaf": true,
-                    "AFI": []
+                    "AFI": "{}"
                 },
                 "fragment2": {
                     "chain": "U",
@@ -27,7 +27,7 @@
                 "fragment3": {
                     "chain": "(dc)",
                     "isLeaf": true,
-                    "AFI": []
+                    "AFI": "{}"
                 }
             },
             "fragment1": {
@@ -37,13 +37,13 @@
             "fragment2": {
                 "chain": "(cd)",
                 "isLeaf": true,
-                "AFI": []
+                "AFI": "{}"
             }
         },
         "fragment1": {
             "chain": "(k*ue*)",
             "isLeaf": true,
-            "AFI": []
+            "AFI": "{}"
         },
         "fragment2": {
             "chain": "((bc*)(b*e*)*)*",
@@ -51,12 +51,12 @@
             "fragment0": {
                 "chain": "(bc*)",
                 "isLeaf": true,
-                "AFI": []
+                "AFI": "{}"
             },
             "fragment1": {
                 "chain": "(b*e*)*",
                 "isLeaf": true,
-                "AFI": []
+                "AFI": "{}"
             }
         },
         "fragment3": {
@@ -69,12 +69,12 @@
             "fragment0": {
                 "chain": "(abcde*)",
                 "isLeaf": true,
-                "AFI": []
+                "AFI": "{}"
             },
             "fragment1": {
                 "chain": "(fg)",
                 "isLeaf": true,
-                "AFI": []
+                "AFI": "{}"
             },
             "fragment2": {
                 "chain": "U",
@@ -83,7 +83,7 @@
             "fragment3": {
                 "chain": "(ab)",
                 "isLeaf": true,
-                "AFI": []
+                "AFI": "{}"
             }
         }
     },
@@ -94,6 +94,6 @@
     "fragment2": {
         "chain": "(be*fg*)",
         "isLeaf": true,
-        "AFI": []
+        "AFI": "{}"
     }
 }
