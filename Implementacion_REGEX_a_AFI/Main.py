@@ -28,13 +28,13 @@ if __name__ == "__main__":
     RE_parser.CHECK_FOR_INVALID_CHAINS(RE_chain) # Revalido por si las dudas
     # FRAGMENTER
     # Fase 5: Crear arbol de recursion para representar la cadena por partes
-    RE_fragmenter.fragmentTree[f"Root"] = {}
-    RE_fragmenter.fragmentTree[f"Root"]["chain"] = RE_chain
-    RE_fragmenter.fragmentTree[f"Root"]["isLeaf"] = False
+    RE_fragmenter.fragmentTree["Root"] = {}
+    RE_fragmenter.fragmentTree["Root"]["chain"] = RE_chain
+    RE_fragmenter.fragmentTree["Root"]["isLeaf"] = False
     RE_fragmenter.fragmentByRecursion(RE_chain, 0, RE_fragmenter.fragmentTree["Root"])
-    json_object = json.dumps(RE_fragmenter.fragmentTree, indent = 4)
+    # Fase 6: 
+    RE_AFIMaker.setTreeToSearch(RE_fragmenter.fragmentTree["Root"])
+    json_object = json.dumps(RE_AFIMaker.automataTree, indent = 4)
     with open("jsonTree.json", "wt") as outfile:
         outfile.write(json_object)
     pass
-    # Fase 6: 
-    RE_AFIMaker.createAutomataLeafs(RE_fragmenter.fragmentTree["Root"])
