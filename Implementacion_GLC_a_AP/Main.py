@@ -142,13 +142,27 @@ def removeEmpty(Variables,terminales,diccionario):
     for i in diccionario: #si existe una regla sin productos, invalidar el programa y salir.
         if bool(diccionario[i])==False:
             errorReglaVacia()
-    
-    
-
-    print('Variables finales', Variables )
-    print('Terminales finales', terminales)
-    print('Reglas ',diccionario)
+    transformer(Variables,terminales,diccionario)
 
 
+def transformer(Variables,terminales,diccionario):
+    Reglasqi=f'~,~->{Variables[0]}$'
+    Reglasqc=[]
+    Reglasqa=f'~,$->~'
+    #borrar terminales en el ciclo
+    for i in terminales:
+        Reglasqc.append(f'{i},{i}->~')
+            
+    #borrar Variables en el ciclo
+    for i in diccionario:
+        for u in diccionario[i]:
+            Reglasqc.append(f'~,{i}->{u}')
+
+    finisher(Reglasqi,Reglasqc,Reglasqa)
+
+def finisher(qi,qc,qa):
+    print(f'la iniciacion (qi) seria: {qi}')
+    print(f'las transiciones de ciclo (qc) serian: {qc}')
+    print(f'la transicion de aceptacion (qa) seria: {qa}')
 
 main()
