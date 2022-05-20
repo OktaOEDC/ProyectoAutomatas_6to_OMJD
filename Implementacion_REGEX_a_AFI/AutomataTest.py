@@ -1,5 +1,4 @@
 from PySimpleAutomata import DFA, automata_IO
-from sympy import E
 
 dfa_example = automata_IO.dfa_json_importer('input.json')
 

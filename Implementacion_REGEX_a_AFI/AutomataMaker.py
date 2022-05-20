@@ -52,7 +52,7 @@ class regexAutomataMaker():
     def getNextAutomataID(self):
         ID = hex(self.automataIndexCounter)
         self.automataIndexCounter += 1
-        return ID[2:]
+        return ID
 
     def setTreeToSearch(self, treeNode: dict, treeCoordinate: str):
         self.automataTree = treeNode
@@ -61,6 +61,29 @@ class regexAutomataMaker():
     def DEFINE_SYMBOLS(self, UNIONsymbol: str, STARsymbol: str):
         self.UNION = UNIONsymbol
         self.STAR = STARsymbol
+
+    def checkForLeafStar(self, AFI: dict, chain: str):
+        if(chain[-1] == self.STAR):
+            # ej: (ab)*
+            prevInitState = AFI["initial_state"]
+            prevAcceptingStates = AFI["accepting_states"]
+            # Crear nuevo estado inicial y conectarlo al previo con epsilon
+            newState = self.getNextAutomataStateID()
+            AFI["accepting_states"].append(newState)
+            AFI["states"].append(newState)
+            AFI["initial_state"] = newState
+            tupleKey = (newState,
+                            f"ε({self.getNextEpsilonID()})")
+            AFI["transitions"][tupleKey] = prevInitState
+            # Conectar los previos de aceptacion con epsilon al inicial original
+            for acceptingState in prevAcceptingStates:
+                tupleKey = (acceptingState, f"ε({self.getNextEpsilonID()})")
+                AFI["transitions"][tupleKey] = prevInitState
+            return AFI
+        else:
+            # ej: (ab)
+            return AFI
+        pass
 
     def mixAutomatas(self, left: dict, right: dict, fusionDict: dict):
         fusionDict["alphabet"] += right["alphabet"]
@@ -81,6 +104,8 @@ class regexAutomataMaker():
         if(len(automataParts) == 1):
             # Si la hoja es solo 1 parte, poner en el diccionario esta
             #  parte sin procesarla
+            # Pero antes de acabar revisar si hay que aplicarle estrella
+            automataParts[0] = self.checkForLeafStar(automataParts[0], fragment["chain"])
             fragment["AFI"] = self.AFIToJson(automataParts[0])
             automata_IO.dfa_to_dot(
                 automataParts[0],
@@ -121,6 +146,8 @@ class regexAutomataMaker():
                             f"ε({self.getNextEpsilonID()})")
                 fusionedAutomata["transitions"][tupleKey] = rightTargetState
             automataPartsIndex += 1
+        # Revisar si debemos aplicar estrella a toda la hoja antes de finalizar su proceso
+        fusionedAutomata = self.checkForLeafStar(fusionedAutomata, fragment["chain"])
         fragment["AFI"] = self.AFIToJson(fusionedAutomata)
         automata_IO.dfa_to_dot(
             fusionedAutomata,
