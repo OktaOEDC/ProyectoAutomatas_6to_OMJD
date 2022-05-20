@@ -1,6 +1,7 @@
 from PySimpleAutomata import automata_IO
 import copy
 
+
 class regexAutomataMaker():
     def __init__(self):
         self.UNION = ""
@@ -9,7 +10,7 @@ class regexAutomataMaker():
             # Arreglo de alfabeto (los caracteres en la regex)
             "alphabet": [],
             "states": [],             # Arreglo de estados
-            "initial_state": "",      # Estado inicial 
+            "initial_state": "",      # Estado inicial
             "accepting_states": [],   # Arreglo de estados de aceptacion
             # Arreglo de arreglos de transiciones [estadoSalida, parteCadena, estadollegada]
             "transitions": {}
@@ -19,7 +20,7 @@ class regexAutomataMaker():
         self.epsilonKey = 0
 
     def AFIToJson(self, AFI: dict):
-        #bien rara la libreria, en codigo debes trabajarlo con su formato DOT
+        # bien rara la libreria, en codigo debes trabajarlo con su formato DOT
         # pero para exportarlo a json debo hacerlo objero json
         # y si lo tiene pero solo lo exporta a archivo
         # Sección obtenida de esa funcion
@@ -37,7 +38,7 @@ class regexAutomataMaker():
         return AFIJson
 
     def getNextEpsilonID(self):
-        # Dado que estamos usando AFDs, debemos usar truquillos 
+        # Dado que estamos usando AFDs, debemos usar truquillos
         # para que usar una transicion tenga > de 1 destino posible
         ID = hex(self.epsilonKey)
         self.epsilonKey += 1
@@ -75,10 +76,10 @@ class regexAutomataMaker():
     def createAutomataLeaf(self, automataParts: list, fragment: dict):
         automataPartsIndex = 0
         osNameChain = fragment["chain"]
-        osNameChain = osNameChain.replace("*","\u204E")
+        osNameChain = osNameChain.replace("*", "\u204E")
         # Crear una hoja en base a partes solo involucra operaciones de concatenacion
         if(len(automataParts) == 1):
-            # Si la hoja es solo 1 parte, poner en el diccionario esta 
+            # Si la hoja es solo 1 parte, poner en el diccionario esta
             #  parte sin procesarla
             fragment["AFI"] = self.AFIToJson(automataParts[0])
             automata_IO.dfa_to_dot(
@@ -90,7 +91,7 @@ class regexAutomataMaker():
         # Templete con el primer elemento en mente
         fusionedAutomata = {}
         fusionedAutomata["alphabet"] = automataParts[0]["alphabet"]
-        fusionedAutomata["states"] =  automataParts[0]["states"]
+        fusionedAutomata["states"] = automataParts[0]["states"]
         fusionedAutomata["accepting_states"] = []
         fusionedAutomata["transitions"] = automataParts[0]["transitions"]
         fusionedAutomata["initial_state"] = automataParts[0]["initial_state"]
@@ -111,11 +112,13 @@ class regexAutomataMaker():
             #  que recibira la transición del de la izuquierda
             rightTargetState = rightAutomata["initial_state"]
             # Fusionar automatas
-            fusionedAutomata = self.mixAutomatas(leftAutomata, rightAutomata, fusionedAutomata)
+            fusionedAutomata = self.mixAutomatas(
+                leftAutomata, rightAutomata, fusionedAutomata)
             # Conectar cada uno de los estados de aceptacion del de la izquierda
             #   al inicial del de la derecha con epsilon
             for leftPrevAcceptingState in leftPrevAcceptingStates:
-                tupleKey = (leftPrevAcceptingState, f"ε({self.getNextEpsilonID()})")
+                tupleKey = (leftPrevAcceptingState,
+                            f"ε({self.getNextEpsilonID()})")
                 fusionedAutomata["transitions"][tupleKey] = rightTargetState
             automataPartsIndex += 1
         fragment["AFI"] = self.AFIToJson(fusionedAutomata)
@@ -124,7 +127,6 @@ class regexAutomataMaker():
             str(f"{self.getNextAutomataID()}"),
             f"./Automatas/Leafs/{osNameChain}")
         return
-
 
     def createAutomataLeafParts(self, fragment, treeCoordinate: str):
         fragment["AFI"] = "{}"
@@ -157,7 +159,7 @@ class regexAutomataMaker():
                 tempAutomata["initial_state"] = state1
                 tempAutomata["accepting_states"] = [state2]
                 tempAutomata["alphabet"] = [letter]
-                tempAutomata["transitions"] = {(state1,letter):state2}
+                tempAutomata["transitions"] = {(state1, letter): state2}
                 # automata_IO.dfa_to_dot(
                 #     tempAutomata,
                 #     str(f"{self.getNextAutomataID()}_{treeCoordinate}"),
@@ -173,16 +175,16 @@ class regexAutomataMaker():
                 tempAutomata["accepting_states"] = [state1, state3]
                 tempAutomata["alphabet"] = [letter, "ε"]
                 tempAutomata["transitions"] = {
-                    (state1,f"ε({self.getNextEpsilonID()})"):state2,
-                    (state2,letter):state3,
-                    (state3,f"ε({self.getNextEpsilonID()})"):state2
+                    (state1, f"ε({self.getNextEpsilonID()})"): state2,
+                    (state2, letter): state3,
+                    (state3, f"ε({self.getNextEpsilonID()})"): state2
                 }
                 # automata_IO.dfa_to_dot(
                 #     tempAutomata,
                 #     str(f"{self.getNextAutomataID()}_{treeCoordinate}"),
                 #     "./Automatas/")
                 automataParts.append(tempAutomata)
-        
+
         self.createAutomataLeaf(automataParts, fragment)
 
     def findAutomataLeafs(self, treeNode: dict, treeCordinate: str):
@@ -201,7 +203,8 @@ class regexAutomataMaker():
             elif((isLeaf) and (not isUnionLeaf)):
                 # Hojas no Union son cadenas sin recursion que se deben
                 #  convertir en automatas
-                self.createAutomataLeafParts(treeNode[f"fragment{fragment}"], coord)
+                self.createAutomataLeafParts(
+                    treeNode[f"fragment{fragment}"], coord)
                 #print("Is Leaf")
             elif(not isLeaf):
                 # No hojas se deben seguir recurriendo para encontrar sus hojas

@@ -91,7 +91,7 @@ class regexFragmenter():
                         treeNode[f"fragment{fragmentNumber}"]
                     )
                 elif(isThisFragmentLeaf):
-                    pass # Hora de crackear ventanas B)
+                    pass  # Hora de crackear ventanas B)
                 fragmentNumber += 1
                 templist = []
 
