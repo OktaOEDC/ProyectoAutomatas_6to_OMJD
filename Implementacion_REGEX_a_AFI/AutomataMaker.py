@@ -58,6 +58,28 @@ class regexAutomataMaker():
         self.automataTree = treeNode
         self.findAutomataLeafs(self.automataTree, treeCoordinate)
 
+    def recursiveAutomataTreeMaker(self, treeNode: dict):
+        nodefragments = [value for key,
+                         value in treeNode.items() if 'fragment' in key.lower()]
+        numberOfFragments = len(nodefragments)
+        # Es verdadero hasta que alguno no lo sea
+        allFragmentsAreUnionsOrAutomatas = True 
+        for fragment in range(numberOfFragments):
+            # SI su AFI es vacio no es automata
+            isAutomata = False 
+            if(treeNode[f"fragment{fragment}"]["AFI"] != []):
+                isAutomata = True
+            chain = treeNode[f"fragment{fragment}"]["chain"]
+            isUnionLeaf = treeNode[f"fragment{fragment}"]["chain"] == self.UNION
+            if(((isAutomata) and (isUnionLeaf))or((isAutomata) and (not isUnionLeaf))or(not isAutomata and isUnionLeaf)):
+                pass
+            elif(not isAutomata):
+                allFragmentsAreUnionsOrAutomatas = False
+                print(f"Some or all fragments of chain {chain} are not automatas yet")
+                self.recursiveAutomataTreeMaker(treeNode[f"fragment{fragment}"])
+            if(allFragmentsAreUnionsOrAutomatas):
+                print(f"All fragments of chain {chain} are automatas")
+
     def DEFINE_SYMBOLS(self, UNIONsymbol: str, STARsymbol: str):
         self.UNION = UNIONsymbol
         self.STAR = STARsymbol
@@ -218,7 +240,6 @@ class regexAutomataMaker():
         nodefragments = [value for key,
                          value in treeNode.items() if 'fragment' in key.lower()]
         numberOfFragments = len(nodefragments)
-        x = 5
         for fragment in range(numberOfFragments):
             isLeaf = treeNode[f"fragment{fragment}"]["isLeaf"] == True
             isUnionLeaf = treeNode[f"fragment{fragment}"]["chain"] == self.UNION
@@ -237,4 +258,3 @@ class regexAutomataMaker():
                 # No hojas se deben seguir recurriendo para encontrar sus hojas
                 self.findAutomataLeafs(treeNode[f"fragment{fragment}"], coord)
         return treeNode
-    pass

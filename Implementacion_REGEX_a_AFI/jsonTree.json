@@ -2,17 +2,18 @@
     "chain": "((((a*)*(bc)U(dc))U(cd))(k*ue*)((bc*)(b*e*)*)*U((abcde*)(fg)U(ab)))*U(be*fg*)",
     "isLeaf": false,
     "fragment0": {
+        "AFI": [],
         "chain": "((((a*)*(bc)U(dc))U(cd))(k*ue*)((bc*)(b*e*)*)*U((abcde*)(fg)U(ab)))*",
         "isLeaf": false,
         "fragment0": {
+            "AFI": [],
             "chain": "(((a*)*(bc)U(dc))U(cd))",
             "isLeaf": false,
             "fragment0": {
+                "AFI": [],
                 "chain": "((a*)*(bc)U(dc))",
                 "isLeaf": false,
                 "fragment0": {
-                    "chain": "(a*)*",
-                    "isLeaf": true,
                     "AFI": {
                         "alphabet": [
                             "a",
@@ -67,11 +68,11 @@
                                 "0x0"
                             ]
                         ]
-                    }
+                    },
+                    "chain": "(a*)*",
+                    "isLeaf": true
                 },
                 "fragment1": {
-                    "chain": "(bc)",
-                    "isLeaf": true,
                     "AFI": {
                         "alphabet": [
                             "b",
@@ -104,15 +105,16 @@
                                 "0x6"
                             ]
                         ]
-                    }
+                    },
+                    "chain": "(bc)",
+                    "isLeaf": true
                 },
                 "fragment2": {
+                    "AFI": [],
                     "chain": "U",
                     "isLeaf": true
                 },
                 "fragment3": {
-                    "chain": "(dc)",
-                    "isLeaf": true,
                     "AFI": {
                         "alphabet": [
                             "d",
@@ -145,16 +147,17 @@
                                 "0xa"
                             ]
                         ]
-                    }
+                    },
+                    "chain": "(dc)",
+                    "isLeaf": true
                 }
             },
             "fragment1": {
+                "AFI": [],
                 "chain": "U",
                 "isLeaf": true
             },
             "fragment2": {
-                "chain": "(cd)",
-                "isLeaf": true,
                 "AFI": {
                     "alphabet": [
                         "c",
@@ -187,12 +190,12 @@
                             "0xe"
                         ]
                     ]
-                }
+                },
+                "chain": "(cd)",
+                "isLeaf": true
             }
         },
         "fragment1": {
-            "chain": "(k*ue*)",
-            "isLeaf": true,
             "AFI": {
                 "alphabet": [
                     "k",
@@ -268,14 +271,15 @@
                         "0x15"
                     ]
                 ]
-            }
+            },
+            "chain": "(k*ue*)",
+            "isLeaf": true
         },
         "fragment2": {
+            "AFI": [],
             "chain": "((bc*)(b*e*)*)*",
             "isLeaf": false,
             "fragment0": {
-                "chain": "(bc*)",
-                "isLeaf": true,
                 "AFI": {
                     "alphabet": [
                         "b",
@@ -321,11 +325,11 @@
                             "0x1a"
                         ]
                     ]
-                }
+                },
+                "chain": "(bc*)",
+                "isLeaf": true
             },
             "fragment1": {
-                "chain": "(b*e*)*",
-                "isLeaf": true,
                 "AFI": {
                     "alphabet": [
                         "b",
@@ -410,19 +414,21 @@
                             "0x1d"
                         ]
                     ]
-                }
+                },
+                "chain": "(b*e*)*",
+                "isLeaf": true
             }
         },
         "fragment3": {
+            "AFI": [],
             "chain": "U",
             "isLeaf": true
         },
         "fragment4": {
+            "AFI": [],
             "chain": "((abcde*)(fg)U(ab))",
             "isLeaf": false,
             "fragment0": {
-                "chain": "(abcde*)",
-                "isLeaf": true,
                 "AFI": {
                     "alphabet": [
                         "a",
@@ -507,11 +513,11 @@
                             "0x2c"
                         ]
                     ]
-                }
+                },
+                "chain": "(abcde*)",
+                "isLeaf": true
             },
             "fragment1": {
-                "chain": "(fg)",
-                "isLeaf": true,
                 "AFI": {
                     "alphabet": [
                         "f",
@@ -544,15 +550,16 @@
                             "0x31"
                         ]
                     ]
-                }
+                },
+                "chain": "(fg)",
+                "isLeaf": true
             },
             "fragment2": {
+                "AFI": [],
                 "chain": "U",
                 "isLeaf": true
             },
             "fragment3": {
-                "chain": "(ab)",
-                "isLeaf": true,
                 "AFI": {
                     "alphabet": [
                         "a",
@@ -585,17 +592,18 @@
                             "0x35"
                         ]
                     ]
-                }
+                },
+                "chain": "(ab)",
+                "isLeaf": true
             }
         }
     },
     "fragment1": {
+        "AFI": [],
         "chain": "U",
         "isLeaf": true
     },
     "fragment2": {
-        "chain": "(be*fg*)",
-        "isLeaf": true,
         "AFI": {
             "alphabet": [
                 "b",
@@ -684,6 +692,8 @@
                     "0x3e"
                 ]
             ]
-        }
+        },
+        "chain": "(be*fg*)",
+        "isLeaf": true
     }
 }

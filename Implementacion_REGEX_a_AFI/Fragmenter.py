@@ -76,6 +76,7 @@ class regexFragmenter():
                 writingList = False
 
                 treeNode[f"fragment{fragmentNumber}"] = {}
+                treeNode[f"fragment{fragmentNumber}"]["AFI"] = []
                 treeNode[f"fragment{fragmentNumber}"]["chain"] = templistString
                 treeNode[f"fragment{fragmentNumber}"]["isLeaf"] = isThisFragmentLeaf
                 if((not isThisFragmentLeaf) and (isChainWhole)):
@@ -97,6 +98,7 @@ class regexFragmenter():
 
             if((not writingList) and (char == self.UNION)):
                 treeNode[f"fragment{fragmentNumber}"] = {}
+                treeNode[f"fragment{fragmentNumber}"]["AFI"] = []
                 treeNode[f"fragment{fragmentNumber}"]["chain"] = self.UNION
                 treeNode[f"fragment{fragmentNumber}"]["isLeaf"] = True
                 fragmentNumber += 1
