@@ -160,6 +160,7 @@ def transformer(Variables,terminales,diccionario):
             Reglasqc.append(f'~,{i}->{u}')
 
     finisher(Reglasqi,Reglasqc,Reglasqa)
+    #Visualizador
     PDA(Reglasqi,Reglasqc, Reglasqa)
 
 def finisher(qi,qc,qa):
