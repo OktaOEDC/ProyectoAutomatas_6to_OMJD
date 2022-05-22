@@ -9,11 +9,12 @@ import json
 #chain = "abcdeUfghij*(aUb)UklmnopUa*"
 chain = "((((a*)*bcUdc)U(cd))k*ue*(bc*(b*e*)*)*U(abcde*(fg)U(ab)))*U(be*fg*)"
 
-def main(regular_expression):
+# def main(regular_expression):
+if __name__ == "__main__":
     RE_parser = regexPreparer()
     RE_fragmenter = regexFragmenter()
     RE_AFIMaker = regexAutomataMaker()
-    RE_chain = RE_parser.removeSpaces(regular_expression)
+    RE_chain = RE_parser.removeSpaces(chain)
     # PARSER
     # FASE 1: Definir symbolos en cada una de las clases que procesan la cadena
     RE_parser.DEFINE_SYMBOLS("U", "*")
@@ -29,6 +30,7 @@ def main(regular_expression):
     # FRAGMENTER
     # Fase 5: Crear arbol de recursion para representar la cadena por partes
     RE_fragmenter.fragmentTree["Root"] = {}
+    RE_fragmenter.fragmentTree["Root"]["AFI"] = []
     RE_fragmenter.fragmentTree["Root"]["chain"] = RE_chain
     RE_fragmenter.fragmentTree["Root"]["isLeaf"] = False
     RE_fragmenter.fragmentByRecursion(
@@ -38,7 +40,9 @@ def main(regular_expression):
     osPathChain = RE_fragmenter.fragmentTree["Root"]["chain"]
     osPathChain = osPathChain.replace("*", "\u204E")
     osPathChain += "/"
-    RE_AFIMaker.recursiveAutomataTreeMaker(RE_fragmenter.fragmentTree["Root"], osPathChain)
+    # FASE 7: Recursivamente resolver de arriba hasta abajo el arbol hasta que root sea automata
+    while(RE_fragmenter.fragmentTree["Root"]["AFI"] == []):
+        RE_AFIMaker.recursiveAutomataTreeMaker(RE_fragmenter.fragmentTree["Root"], osPathChain)
     json_object = json.dumps(RE_AFIMaker.automataTree, indent=4)
     with open("jsonTree.json", "wt") as outfile:
         outfile.write(json_object)
