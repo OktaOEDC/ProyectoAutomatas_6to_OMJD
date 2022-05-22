@@ -55,13 +55,19 @@ class GLCtoAP:
 class REGEXtoAFI:
     def __init__(self) -> None:
         self.idk = ''
-
+        self.width = 640
+        self.height = 480
     def main(self):
         RTA.main(self.idk)
 
     def addchain(self, regular_expression):
         self.idk(regular_expression)
 
+    def graph_to_png(self):
+        pass
+        #cairosvg.svg2png(url='/Implementacion_REGEX_a_AFI/AFI.dot/AFI-Resultante.dot.svg', write_to='/images', output_width=self.width, output_height=self.height)
+    
+    
 
 user_regex = useregex()
 ls_regex = user_regex.get_regex()
@@ -72,7 +78,7 @@ layout = [[sg.Text('---REGEX to AFI---')],
           [sg.Text('Type in a RegEx:'), sg.Input(key='-INPUT SYMBOL-')],
           [sg.Button('Enter alphabet symbol'), sg.Button(
               'Show AFI'), sg.Button('Exit')],
-          [sg.Text('PLACEHOLDER IMAGE')],
+          [sg.Image()],
           [sg.Text('GLC to PA')],
           [sg.Text('Type Rule in form S->a|bc|D  :'),
            sg.Input(key='-INPUT-RULE-')],
@@ -80,7 +86,7 @@ layout = [[sg.Text('---REGEX to AFI---')],
           [sg.Button('Add Rule'), sg.Button(
               'Show Automaton'), sg.Button(
               'Clear Rules')], [sg.Text( key='-PA-')],
-          [sg.Image(r'./jack.jpg')]]
+          [sg.Image()]]
 
 window = sg.Window('REGEX to AFI', layout)
 
