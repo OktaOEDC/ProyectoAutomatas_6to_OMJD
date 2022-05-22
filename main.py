@@ -16,8 +16,9 @@ class useregex:
         print(self.alphabet)
 
     def submit_regex(self):
-        #la regla tiene que ser escrita de la siguiente forma: S->a|bc|D
+        # la regla tiene que ser escrita de la siguiente forma: S->a|bc|D
         print('SEND REGEX TO JSON....')
+
     def get_regex(self):
         return str(self.alphabet)
 
@@ -25,29 +26,39 @@ class useregex:
 class GLCtoAP:
     def __init__(self) -> None:
         self.expressions = []
+
     def tagExp(self, expression):
         self.expressions.append(expression)
+
     def main(self):
         GLC.separador(self.expressions)
 
-class REGEX_to_AFI:
+
+class REGEXtoAFI:
     def __init__(self) -> None:
-        self.idk=''
+        self.idk = ''
+
     def main(self):
         RTA.main(self.idk)
-    def addchain(self,regular_expression):
+
+    def addchain(self, regular_expression):
         self.idk(regular_expression)
+
 
 user_regex = useregex()
 ls_regex = user_regex.get_regex()
 
 
-layout = [[sg.Text('---REGEX to AFI---')]
-          ,[sg.Text('Type in a symbol:'), sg.Input(key='-INPUT REGEX-')],
+layout = [[sg.Text('---REGEX to AFI---')], [sg.Text('Type in a symbol:'), sg.Input(key='-INPUT REGEX-')],
           [sg.Text('Type in a RegEx:'), sg.Input(key='-INPUT SYMBOL-')],
-          [sg.Button('Enter alphabet symbol'), sg.Button('Show AFI'), sg.Button('Exit')],
+          [sg.Button('Enter alphabet symbol'), sg.Button(
+              'Show AFI'), sg.Button('Exit')],
           [sg.Text('PLACEHOLDER IMAGE')],
           [sg.Text('GLC to PA')],
+          [sg.Text('Type Rule in form S->a|bc|D  :'),
+           sg.Input(key='-INPUT RULE-')],
+          [sg.Button('Add Rule'), sg.Button(
+              'Show Automaton')],
           [sg.Image(r'./jack.jpg')]]
 
 window = sg.Window('REGEX to AFI', layout)
