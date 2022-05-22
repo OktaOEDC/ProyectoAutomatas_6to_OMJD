@@ -37,13 +37,14 @@ if __name__ == "__main__":
     RE_fragmenter.fragmentByRecursion(
         RE_chain, 0, RE_fragmenter.fragmentTree["Root"])
     # Fase 6: Definir en el arbol de busqueda sus hojas
-    RE_AFIMaker.setTreeToSearch(RE_fragmenter.fragmentTree["Root"], "0")
-    osPathChain = RE_fragmenter.fragmentTree["Root"]["chain"]
+    RE_AFIMaker.makerTree = RE_fragmenter.fragmentTree
+    RE_AFIMaker.setTreeToSearch(RE_AFIMaker.makerTree["Root"], "0")
+    osPathChain = RE_AFIMaker.makerTree["Root"]["chain"]
     osPathChain = osPathChain.replace("*", "\u204E")
     osPathChain += "/"
     # FASE 7: Recursivamente resolver de arriba hasta abajo el arbol hasta que root sea automata
-    while(RE_fragmenter.fragmentTree["Root"]["AFI"] == []):
-        RE_AFIMaker.recursiveAutomataTreeMaker(RE_fragmenter.fragmentTree["Root"], osPathChain, True)
+    while(RE_AFIMaker.makerTree["Root"]["AFI"] == []):
+        RE_AFIMaker.recursiveAutomataTreeMaker(RE_AFIMaker.makerTree["Root"], osPathChain, True)
     json_object = json.dumps(RE_AFIMaker.automataTree, indent=4)
     with open("jsonTree.json", "wt") as outfile:
         outfile.write(json_object)

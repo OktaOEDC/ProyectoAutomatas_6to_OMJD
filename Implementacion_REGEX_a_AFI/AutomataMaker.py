@@ -19,6 +19,7 @@ class regexAutomataMaker():
         self.stateIndexCounter = 0
         self.automataIndexCounter = 0
         self.epsilonKey = 0
+        self.makerTree = {}
 
     def AFIToJson(self, AFI: dict):
         # bien rara la libreria, en codigo debes trabajarlo con su formato DOT
@@ -194,7 +195,7 @@ class regexAutomataMaker():
                 str(f"{self.getNextAutomataID()}"),
                 f"./Automatas/Nodes/{OSpathChain}{osNameChain}")
             if(isRoot):
-                print(f"The path to the root SVG is: Automatas/Nodes/{OSpathChain}{osNameChain}")
+                print(f'The path to the root SVG is: "Automatas/Nodes/{OSpathChain}{osNameChain}"')
 
     def DEFINE_SYMBOLS(self, UNIONsymbol: str, STARsymbol: str):
         self.UNION = UNIONsymbol
