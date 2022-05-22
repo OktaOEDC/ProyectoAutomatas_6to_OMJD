@@ -50,7 +50,7 @@ def separador(Reglas):
         #Remover variables duplicadas
         Variables=list(dict.fromkeys(Variables))
     #validar la informacion
-    validarVariables(Variables,diccionario)#Las variables se agregan al array en orden, por lo que siempre Variables[0] es la variable inicial.
+    return validarVariables(Variables,diccionario)#Las variables se agregan al array en orden, por lo que siempre Variables[0] es la variable inicial.
     
     
 
@@ -75,7 +75,7 @@ def validarVariables(Variables=[], diccionario={}):
 
 
         if n==True:
-            removeEmpty(Variables,terminales,diccionario)
+            return removeEmpty(Variables,terminales,diccionario)
             n=False
 
 
@@ -143,7 +143,7 @@ def removeEmpty(Variables,terminales,diccionario):
     for i in diccionario: #si existe una regla sin productos, invalidar el programa y salir.
         if bool(diccionario[i])==False:
             errorReglaVacia()
-    transformer(Variables,terminales,diccionario)
+    return transformer(Variables,terminales,diccionario)
 
 
 def transformer(Variables,terminales,diccionario):
