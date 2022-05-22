@@ -119,19 +119,19 @@ class regexAutomataMaker():
             mustStarNode = True
         numberOfFragments = len([value for key,
                          value in treeNode.items() if 'fragment' in key.lower()])
-        fullNode = treeNode[f"fragment{numberOfFragments-1}"]["AFI"]
-        fragmentIndex = numberOfFragments-1
-        while(fragmentIndex >0):
-            if(fragmentIndex >=2):
+        fullNode = treeNode[f"fragment{0}"]["AFI"]
+        fragmentIndex = 0
+        while(fragmentIndex < numberOfFragments-1):
+            if(fragmentIndex < numberOfFragments-2):
                 # Solo puede haber simbolo de UNION en esa circnstancia
-                if(treeNode[f"fragment{fragmentIndex-1}"]["chain"] == self.UNION):
-                    fullNode = self.nodesUNION(treeNode[f"fragment{fragmentIndex-2}"]['AFI'],fullNode)
-                    fragmentIndex -= 1
+                if(treeNode[f"fragment{fragmentIndex+1}"]["chain"] == self.UNION):
+                    fullNode = self.nodesUNION(fullNode, treeNode[f"fragment{fragmentIndex+2}"]['AFI'])
+                    fragmentIndex += 1
                 else:
-                    fullNode = self.nodesCONCAT(treeNode[f"fragment{fragmentIndex-1}"]['AFI'],fullNode)
+                    fullNode = self.nodesCONCAT(fullNode, treeNode[f"fragment{fragmentIndex+1}"]['AFI'])
             else:
-                fullNode = self.nodesCONCAT(treeNode[f"fragment{fragmentIndex-1}"]['AFI'],fullNode)
-            fragmentIndex -= 1 
+                fullNode = self.nodesCONCAT(fullNode, treeNode[f"fragment{fragmentIndex+1}"]['AFI'])
+            fragmentIndex += 1 
         # Al acbar convertirlo en AFI compatible con JSON .. o no porque las hojas ya lo eran?
         #fullNode = self.AFIToJson(fullNode)
         return fullNode
