@@ -79,6 +79,30 @@ class regexAutomataMaker():
         self.automataTree = treeNode
         self.findAutomataLeafs(self.automataTree, treeCoordinate)
 
+    def nodesSTAR(self, node: dict):
+        starizedNode = copy.deepcopy(self.AFITemplate)
+        newState = self.getNextAutomataStateID()
+        previousInitial = node["initial_state"]
+        starizedNode["alphabet"] = node["alphabet"]
+        starizedNode["states"] = node["states"]
+        starizedNode["initial_state"] = newState
+        starizedNode["accepting_states"] = node["accepting_states"]
+        starizedNode["transitions"] = node["transitions"]
+        for prevAcceptingState in node["accepting_states"]:
+            starizedNode["transitions"].append(
+                [prevAcceptingState,
+                 f"ε({self.getNextEpsilonID()})",
+                  previousInitial]
+            )
+        starizedNode["states"].append(newState)
+        starizedNode["accepting_states"].append(newState)
+        starizedNode["transitions"].append(
+                [newState,
+                 f"ε({self.getNextEpsilonID()})",
+                  previousInitial]
+        )
+        return starizedNode
+
     def nodesUNION(self, left: dict, right: dict):
         unionizedNode = copy.deepcopy(self.AFITemplate)
         newStart = self.getNextAutomataStateID()
@@ -134,6 +158,8 @@ class regexAutomataMaker():
             fragmentIndex += 1 
         # Al acbar convertirlo en AFI compatible con JSON .. o no porque las hojas ya lo eran?
         #fullNode = self.AFIToJson(fullNode)
+        if(mustStarNode):
+            fullNode = self.nodesSTAR(fullNode)
         return fullNode
 
     def recursiveAutomataTreeMaker(self, treeNode: dict):
