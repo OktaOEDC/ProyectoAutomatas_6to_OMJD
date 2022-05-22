@@ -32,9 +32,11 @@ class GLCtoAP:
 
 class REGEX_to_AFI:
     def __init__(self) -> None:
-        self.idk
+        self.idk=''
     def main(self):
-        RTA.main()
+        RTA.main(self.idk)
+    def addchain(self,regular_expression):
+        self.idk(regular_expression)
 
 user_regex = useregex()
 ls_regex = user_regex.get_regex()
