@@ -159,11 +159,11 @@ def transformer(Variables,terminales,diccionario):
         for u in diccionario[i]:
             Reglasqc.append(f'~,{i}->{u}')
 
-    finisher(Reglasqi,Reglasqc,Reglasqa)
+    return(Reglasqi,Reglasqc,Reglasqa)
 
 def finisher(qi,qc,qa):
     print(f'la iniciacion (qi) seria: {qi}')
     print(f'las transiciones de ciclo (qc) serian: {qc}')
     print(f'la transicion de aceptacion (qa) seria: {qa}')
-
+    return [qi,qc,qa]
 main()
