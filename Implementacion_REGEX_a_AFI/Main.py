@@ -35,7 +35,10 @@ if __name__ == "__main__":
         RE_chain, 0, RE_fragmenter.fragmentTree["Root"])
     # Fase 6: Definir en el arbol de busqueda sus hojas
     RE_AFIMaker.setTreeToSearch(RE_fragmenter.fragmentTree["Root"], "0")
-    RE_AFIMaker.recursiveAutomataTreeMaker(RE_fragmenter.fragmentTree["Root"])
+    osPathChain = RE_fragmenter.fragmentTree["Root"]["chain"]
+    osPathChain = osPathChain.replace("*", "\u204E")
+    osPathChain += "/"
+    RE_AFIMaker.recursiveAutomataTreeMaker(RE_fragmenter.fragmentTree["Root"], osPathChain)
     json_object = json.dumps(RE_AFIMaker.automataTree, indent=4)
     with open("jsonTree.json", "wt") as outfile:
         outfile.write(json_object)

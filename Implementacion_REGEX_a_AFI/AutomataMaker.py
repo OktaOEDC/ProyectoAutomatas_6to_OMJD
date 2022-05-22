@@ -1,3 +1,4 @@
+from tty import OSPEED
 from xxlimited import new
 from PySimpleAutomata import automata_IO
 import copy
@@ -162,7 +163,7 @@ class regexAutomataMaker():
             fullNode = self.nodesSTAR(fullNode)
         return fullNode
 
-    def recursiveAutomataTreeMaker(self, treeNode: dict):
+    def recursiveAutomataTreeMaker(self, treeNode: dict, OSpathChain: str):
         nodefragments = [value for key,
                          value in treeNode.items() if 'fragment' in key.lower()]
         numberOfFragments = len(nodefragments)
@@ -179,7 +180,7 @@ class regexAutomataMaker():
                 pass
             elif(not isAutomata):
                 allFragmentsAreUnionsOrAutomatas = False
-                self.recursiveAutomataTreeMaker(treeNode[f"fragment{fragment}"])
+                self.recursiveAutomataTreeMaker(treeNode[f"fragment{fragment}"], OSpathChain+chain+"/")
         # Solo se debe revisar al final 1 solo vez si todos los fragmentos son automatas
         if(allFragmentsAreUnionsOrAutomatas):
             print(f"All fragments of chain {chain} are automatas")
@@ -190,7 +191,7 @@ class regexAutomataMaker():
             automata_IO.dfa_to_dot(
                 self.AFIToDot(treeNode["AFI"]),
                 str(f"{self.getNextAutomataID()}"),
-                f"./Automatas/Nodes/{osNameChain}")
+                f"./Automatas/Nodes/{OSpathChain}{osNameChain}")
             x = 5
 
     def DEFINE_SYMBOLS(self, UNIONsymbol: str, STARsymbol: str):
