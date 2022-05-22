@@ -7,7 +7,8 @@ import json
 #chain = "aU(bcU(fg))Uef(go)*ab"
 #chain = "aUa(((ab*Ub*c*(d)*)*U(ab*)*U(c*Ud*)))"
 #chain = "abcdeUfghij*(aUb)UklmnopUa*"
-chain = "((((a*)*bcUdc)U(cd))k*ue*(bc*(b*e*)*)*U(abcde*(fg)U(ab)))*U(be*fg*)"
+#chain = "((((a*)*bcUdc)U(cd))k*ue*(bc*(b*e*)*)*U(abcde*(fg)U(ab)))*U(be*fg*)"
+chain = "((a)U(bc*))*"
 
 # def main(regular_expression):
 if __name__ == "__main__":

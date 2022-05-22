@@ -75,8 +75,9 @@ class regexPreparer:
         lastParenthesisSeen = ""
 
         # Primero revisar si tan siquiera hay parentesis
-        if ("(" not in chainList or ")" not in chainList):
-            return
+        # si no le ponemos 1
+        # if ("(" not in chainList or ")" not in chainList):
+        #     return self.PARENTHESIZE_ALL_FRAGMENTS(f"({chain})")
 
         while(chainIndex > -1):
             char = chain[chainIndex]
