@@ -1,3 +1,4 @@
+from xxlimited import new
 from PySimpleAutomata import automata_IO
 import copy
 
@@ -37,6 +38,26 @@ class regexAutomataMaker():
                 [transition[0], transition[1], AFI['transitions'][transition]])
         return AFIJson
 
+    def AFIToDot(self, AFI: dict):
+        # El reverso de la funcion de arriba
+        # Version modificada de funcion dfa_json importer para
+        #  que agarre de memoria en vez de disco
+        AFIJson = copy.deepcopy(AFI)
+
+        transitions = {}  # key [state ∈ states, action ∈ alphabet]
+        #                   value [arriving state ∈ states]
+        for (origin, action, destination) in AFIJson['transitions']:
+            transitions[origin, action] = destination
+
+        AFI = {
+            'alphabet': set(AFIJson['alphabet']),
+            'states': set(AFIJson['states']),
+            'initial_state': AFIJson['initial_state'],
+            'accepting_states': set(AFIJson['accepting_states']),
+            'transitions': transitions
+        }
+        return AFI
+
     def getNextEpsilonID(self):
         # Dado que estamos usando AFDs, debemos usar truquillos
         # para que usar una transicion tenga > de 1 destino posible
@@ -58,27 +79,93 @@ class regexAutomataMaker():
         self.automataTree = treeNode
         self.findAutomataLeafs(self.automataTree, treeCoordinate)
 
+    def nodesUNION(self, left: dict, right: dict):
+        unionizedNode = copy.deepcopy(self.AFITemplate)
+        newStart = self.getNextAutomataStateID()
+        leftInit = left["initial_state"]
+        rightInit = right["initial_state"]
+        unionizedNode["alphabet"] = right["alphabet"] + left["alphabet"] 
+        unionizedNode["states"] = right["states"] + left["states"] + [newStart]
+        unionizedNode["accepting_states"] = right["accepting_states"] + left["accepting_states"]
+        unionizedNode["initial_state"] = newStart
+        unionizedNode["transitions"] = left["transitions"] + right["transitions"]
+        unionizedNode["transitions"].append([newStart,f"ε({self.getNextEpsilonID()})",leftInit])
+        unionizedNode["transitions"].append([newStart,f"ε({self.getNextEpsilonID()})",rightInit])
+        return unionizedNode
+
+    def nodesCONCAT(self, left: dict, right: dict):
+        concatanatedNode = copy.deepcopy(self.AFITemplate)
+        concatanatedNode["alphabet"] = right["alphabet"] + left["alphabet"] 
+        concatanatedNode["states"] = right["states"] + left["states"]
+        concatanatedNode["accepting_states"] = right["accepting_states"] 
+        concatanatedNode["initial_state"] = left["initial_state"]
+        concatanatedNode["transitions"] = left["transitions"] + right["transitions"]
+        for leftPrevAcceptingState in left["accepting_states"]:
+            concatanatedNode["transitions"].append(
+                [leftPrevAcceptingState,
+                 f"ε({self.getNextEpsilonID()})",
+                  right["initial_state"]]
+            )
+        return concatanatedNode
+
+    def createAutomataTreeNode(self, treeNode: dict):
+        # Al crear un nodo ya sea en base a nodos previos o hojas
+        #  las reglas son un poco más simples que crear la hoja desde 0
+        # Solo pueden pasar 3 cosas: Concatenación de hojas/nodos, Union de nodos/hojas
+        #  o "estrellizacion?" del nodo entero
+        # Primero revisar si al final se debe aplicar asterisco
+        mustStarNode = False
+        if(treeNode["chain"][-1] == self.STAR):
+            mustStarNode = True
+        numberOfFragments = len([value for key,
+                         value in treeNode.items() if 'fragment' in key.lower()])
+        fullNode = treeNode[f"fragment{numberOfFragments-1}"]["AFI"]
+        fragmentIndex = numberOfFragments-1
+        while(fragmentIndex >0):
+            if(fragmentIndex >=2):
+                # Solo puede haber simbolo de UNION en esa circnstancia
+                if(treeNode[f"fragment{fragmentIndex-1}"]["chain"] == self.UNION):
+                    fullNode = self.nodesUNION(treeNode[f"fragment{fragmentIndex-2}"]['AFI'],fullNode)
+                    fragmentIndex -= 1
+                else:
+                    fullNode = self.nodesCONCAT(treeNode[f"fragment{fragmentIndex-1}"]['AFI'],fullNode)
+            else:
+                fullNode = self.nodesCONCAT(treeNode[f"fragment{fragmentIndex-1}"]['AFI'],fullNode)
+            fragmentIndex -= 1 
+        # Al acbar convertirlo en AFI compatible con JSON .. o no porque las hojas ya lo eran?
+        #fullNode = self.AFIToJson(fullNode)
+        return fullNode
+
     def recursiveAutomataTreeMaker(self, treeNode: dict):
         nodefragments = [value for key,
                          value in treeNode.items() if 'fragment' in key.lower()]
         numberOfFragments = len(nodefragments)
+        chain = treeNode["chain"]
         # Es verdadero hasta que alguno no lo sea
         allFragmentsAreUnionsOrAutomatas = True 
         for fragment in range(numberOfFragments):
             # SI su AFI es vacio no es automata
             isAutomata = False 
             if(treeNode[f"fragment{fragment}"]["AFI"] != []):
-                isAutomata = True
-            chain = treeNode[f"fragment{fragment}"]["chain"]
+                isAutomata = True       
             isUnionLeaf = treeNode[f"fragment{fragment}"]["chain"] == self.UNION
             if(((isAutomata) and (isUnionLeaf))or((isAutomata) and (not isUnionLeaf))or(not isAutomata and isUnionLeaf)):
                 pass
             elif(not isAutomata):
                 allFragmentsAreUnionsOrAutomatas = False
-                print(f"Some or all fragments of chain {chain} are not automatas yet")
                 self.recursiveAutomataTreeMaker(treeNode[f"fragment{fragment}"])
-            if(allFragmentsAreUnionsOrAutomatas):
-                print(f"All fragments of chain {chain} are automatas")
+        # Solo se debe revisar al final 1 solo vez si todos los fragmentos son automatas
+        if(allFragmentsAreUnionsOrAutomatas):
+            print(f"All fragments of chain {chain} are automatas")
+            # Sí todos los fragmentos son automatas hacemos que este nodo se covierta en automata
+            treeNode["AFI"] = self.createAutomataTreeNode(treeNode)
+            osNameChain = treeNode["chain"]
+            osNameChain = osNameChain.replace("*", "\u204E")
+            automata_IO.dfa_to_dot(
+                self.AFIToDot(treeNode["AFI"]),
+                str(f"{self.getNextAutomataID()}"),
+                f"./Automatas/Nodes/{osNameChain}")
+            x = 5
 
     def DEFINE_SYMBOLS(self, UNIONsymbol: str, STARsymbol: str):
         self.UNION = UNIONsymbol
