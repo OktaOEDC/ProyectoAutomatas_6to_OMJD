@@ -10,11 +10,12 @@ def main():
 
 
 def datainput():
+    pass
     #leer y separar las reglas por ','
-    Reglas=input(print('Introduzca todas las reglas separadas por una \',\' \n la regla tiene que ser escrita de la siguiente forma: S->a|bc|D: ')).strip().replace(" ","").split(",")
+    #Reglas=input(print('Introduzca todas las reglas separadas por una \',\' \n la regla tiene que ser escrita de la siguiente forma: S->a|bc|D: ')).strip().replace(" ","").split(",")
 
     #llamar al separador para generar un diccionario con las Variables y lo que producen.
-    separador(Reglas)
+    #separador()
 
 
 

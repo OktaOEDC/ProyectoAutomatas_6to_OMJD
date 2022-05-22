@@ -1,6 +1,8 @@
+from cmath import exp
 import PySimpleGUI as sg
 from numpy import append, array
-
+import Implementacion_GLC_a_AP.Main as GLC
+import Implementacion_REGEX_a_AFI as RTA
 sg.theme('BluePurple')
 
 
@@ -14,20 +16,37 @@ class useregex:
         print(self.alphabet)
 
     def submit_regex(self):
+        #la regla tiene que ser escrita de la siguiente forma: S->a|bc|D
         print('SEND REGEX TO JSON....')
     def get_regex(self):
         return str(self.alphabet)
 
 
+class GLCtoAP:
+    def __init__(self) -> None:
+        self.expressions = []
+    def tagExp(self, expression):
+        self.expressions.append(expression)
+    def main(self):
+        GLC.separador(self.expressions)
+
+class REGEX_to_AFI:
+    def __init__(self) -> None:
+        self.idk
+    def main(self):
+        RTA.main()
+
 user_regex = useregex()
 ls_regex = user_regex.get_regex()
 
 
-layout = [[sg.Text('Type in a symbol:'), sg.Input(key='-INPUT REGEX-')],
+layout = [[sg.Text('---REGEX to AFI---')]
+          ,[sg.Text('Type in a symbol:'), sg.Input(key='-INPUT REGEX-')],
           [sg.Text('Type in a RegEx:'), sg.Input(key='-INPUT SYMBOL-')],
           [sg.Button('Enter alphabet symbol'), sg.Button('Show AFI'), sg.Button('Exit')],
           [sg.Text('PLACEHOLDER IMAGE')],
-          [sg.Image(r'C:\Users\julio\Desktop\PROJECTS\AUTOMATAS\ProyectoAutomatas_6to_OMJD\app\jack.jpg')]]
+          [sg.Text('GLC to PA')],
+          [sg.Image(r'./jack.jpg')]]
 
 window = sg.Window('REGEX to AFI', layout)
 

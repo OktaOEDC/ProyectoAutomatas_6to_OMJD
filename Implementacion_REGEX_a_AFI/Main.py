@@ -9,11 +9,11 @@ import json
 #chain = "abcdeUfghij*(aUb)UklmnopUa*"
 chain = "((((a*)*bcUdc)U(cd))k*ue*(bc*(b*e*)*)*U(abcde*(fg)U(ab)))*U(be*fg*)"
 
-if __name__ == "__main__":
+def main(userchain):
     RE_parser = regexPreparer()
     RE_fragmenter = regexFragmenter()
     RE_AFIMaker = regexAutomataMaker()
-    RE_chain = RE_parser.removeSpaces(chain)
+    RE_chain = RE_parser.removeSpaces(userchain)
     # PARSER
     # FASE 1: Definir symbolos en cada una de las clases que procesan la cadena
     RE_parser.DEFINE_SYMBOLS("U", "*")
@@ -42,4 +42,3 @@ if __name__ == "__main__":
     json_object = json.dumps(RE_AFIMaker.automataTree, indent=4)
     with open("jsonTree.json", "wt") as outfile:
         outfile.write(json_object)
-    pass
