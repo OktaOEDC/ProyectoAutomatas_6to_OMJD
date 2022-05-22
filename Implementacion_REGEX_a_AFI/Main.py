@@ -43,7 +43,7 @@ if __name__ == "__main__":
     osPathChain += "/"
     # FASE 7: Recursivamente resolver de arriba hasta abajo el arbol hasta que root sea automata
     while(RE_fragmenter.fragmentTree["Root"]["AFI"] == []):
-        RE_AFIMaker.recursiveAutomataTreeMaker(RE_fragmenter.fragmentTree["Root"], osPathChain)
+        RE_AFIMaker.recursiveAutomataTreeMaker(RE_fragmenter.fragmentTree["Root"], osPathChain, True)
     json_object = json.dumps(RE_AFIMaker.automataTree, indent=4)
     with open("jsonTree.json", "wt") as outfile:
         outfile.write(json_object)

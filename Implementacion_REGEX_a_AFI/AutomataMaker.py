@@ -1,5 +1,4 @@
-from tty import OSPEED
-from xxlimited import new
+from xmlrpc.client import boolean
 from PySimpleAutomata import automata_IO
 import copy
 
@@ -163,7 +162,7 @@ class regexAutomataMaker():
             fullNode = self.nodesSTAR(fullNode)
         return fullNode
 
-    def recursiveAutomataTreeMaker(self, treeNode: dict, OSpathChain: str):
+    def recursiveAutomataTreeMaker(self, treeNode: dict, OSpathChain: str, isRoot: boolean):
         nodefragments = [value for key,
                          value in treeNode.items() if 'fragment' in key.lower()]
         numberOfFragments = len(nodefragments)
@@ -180,7 +179,8 @@ class regexAutomataMaker():
                 pass
             elif(not isAutomata):
                 allFragmentsAreUnionsOrAutomatas = False
-                self.recursiveAutomataTreeMaker(treeNode[f"fragment{fragment}"], OSpathChain+chain+"/")
+                fragChain = treeNode[f"fragment{fragment}"]["chain"]
+                self.recursiveAutomataTreeMaker(treeNode[f"fragment{fragment}"], OSpathChain+fragChain+"/", False)
         # Solo se debe revisar al final 1 solo vez si todos los fragmentos son automatas
         if(allFragmentsAreUnionsOrAutomatas):
             print(f"All fragments of chain {chain} are automatas")
@@ -188,11 +188,13 @@ class regexAutomataMaker():
             treeNode["AFI"] = self.createAutomataTreeNode(treeNode)
             osNameChain = treeNode["chain"]
             osNameChain = osNameChain.replace("*", "\u204E")
+            OSpathChain = OSpathChain.replace("*", "\u204E")
             automata_IO.dfa_to_dot(
                 self.AFIToDot(treeNode["AFI"]),
                 str(f"{self.getNextAutomataID()}"),
                 f"./Automatas/Nodes/{OSpathChain}{osNameChain}")
-            x = 5
+            if(isRoot):
+                print(f"The path to the root SVG is: Automatas/Nodes/{OSpathChain}{osNameChain}")
 
     def DEFINE_SYMBOLS(self, UNIONsymbol: str, STARsymbol: str):
         self.UNION = UNIONsymbol
