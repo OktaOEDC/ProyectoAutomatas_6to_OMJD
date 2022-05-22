@@ -1,6 +1,6 @@
 from ast import Delete, excepthandler
 from pickle import EMPTY_LIST, FALSE
-
+from PIL import Image, ImageFont, ImageDraw
 from numpy import empty
 
 
@@ -160,10 +160,24 @@ def transformer(Variables,terminales,diccionario):
             Reglasqc.append(f'~,{i}->{u}')
 
     finisher(Reglasqi,Reglasqc,Reglasqa)
+    PDA(Reglasqi,Reglasqc, Reglasqa)
 
 def finisher(qi,qc,qa):
     print(f'la iniciacion (qi) seria: {qi}')
     print(f'las transiciones de ciclo (qc) serian: {qc}')
     print(f'la transicion de aceptacion (qa) seria: {qa}')
+
+def PDA(qi, qc, qa):
+    my_image = Image.open('Implementacion_GLC_a_AP/AP_no_texto.png')
+    font = ImageFont.truetype("arial.ttf", 20)
+    image_editable = ImageDraw.Draw(my_image)
+    image_editable.text((225,150), qi, (12, 12, 13), font=font)
+    i = 0
+    while i < len(qc):
+        image_editable.text((400,225+ (20*i)), qc[i], (12, 12, 13), font=font)
+        i+=1
+    image_editable.text((225,400), qa, (12, 12, 13), font=font)
+    # my_image.show()
+    my_image.save('Implementacion_GLC_a_AP/AP_texto.png')
 
 main()
