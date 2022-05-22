@@ -43,7 +43,9 @@ class GLCtoAP:
 
     def translate_to_pushdown_automaton(self):
         self.pushdown_automaton = GLC.separador(self.expressions)
+        print(self.pushdown_automaton)
         for q in self.pushdown_automaton:
+            
             self.readable_pushdown_automaton += q+'\n'
 
     def get_pushdown_automaton(self):
