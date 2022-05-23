@@ -152,5 +152,5 @@ class regexPreparer:
 
             chainIndex -= 1
             chain = "".join(chainList)  # para debugeo
-        print(chain)
+        #(chain)
         return chain

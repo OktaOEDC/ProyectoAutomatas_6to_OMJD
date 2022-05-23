@@ -184,7 +184,7 @@ class regexAutomataMaker():
                 self.recursiveAutomataTreeMaker(treeNode[f"fragment{fragment}"], OSpathChain+fragChain+"/", False)
         # Solo se debe revisar al final 1 solo vez si todos los fragmentos son automatas
         if(allFragmentsAreUnionsOrAutomatas):
-            print(f"All fragments of chain {chain} are automatas")
+            #(f"All fragments of chain {chain} are automatas")
             # Sí todos los fragmentos son automatas hacemos que este nodo se covierta en automata
             treeNode["AFI"] = self.createAutomataTreeNode(treeNode)
             osNameChain = treeNode["chain"]
