@@ -8,14 +8,14 @@ import json
 #chain = "aUa(((ab*Ub*c*(d)*)*U(ab*)*U(c*Ud*)))"
 #chain = "abcdeUfghij*(aUb)UklmnopUa*"
 #chain = "((((a*)*bcUdc)U(cd))k*ue*(bc*(b*e*)*)*U(abcde*(fg)U(ab)))*U(be*fg*)"
-chain = "((a)U(bc*))*"
+#chain = "((a)U(bc*))*"
 
-# def main(regular_expression):
-if __name__ == "__main__":
+def main(regular_expression):
+#if __name__ == "__main__":
     RE_parser = regexPreparer()
     RE_fragmenter = regexFragmenter()
     RE_AFIMaker = regexAutomataMaker()
-    RE_chain = RE_parser.removeSpaces(chain)
+    RE_chain = RE_parser.removeSpaces(regular_expression)
     # PARSER
     # FASE 1: Definir symbolos en cada una de las clases que procesan la cadena
     RE_parser.DEFINE_SYMBOLS("U", "*")

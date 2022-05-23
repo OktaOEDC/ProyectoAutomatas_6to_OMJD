@@ -14,17 +14,13 @@
             "0x6",
             "0x0",
             "0x1",
-            "0x7",
-            "0x8",
-            "0x9"
+            "0x7"
         ],
-        "initial_state": "0x9",
+        "initial_state": "0x7",
         "accepting_states": [
             "0x4",
             "0x6",
-            "0x1",
-            "0x8",
-            "0x9"
+            "0x1"
         ],
         "transitions": [
             [
@@ -66,90 +62,60 @@
                 "0x7",
                 "\u03b5(4)",
                 "0x2"
-            ],
-            [
-                "0x4",
-                "\u03b5(5)",
-                "0x7"
-            ],
-            [
-                "0x6",
-                "\u03b5(6)",
-                "0x7"
-            ],
-            [
-                "0x1",
-                "\u03b5(7)",
-                "0x7"
-            ],
-            [
-                "0x8",
-                "\u03b5(8)",
-                "0x7"
-            ],
-            [
-                "0x4",
-                "\u03b5(9)",
-                "0x8"
-            ],
-            [
-                "0x6",
-                "\u03b5(a)",
-                "0x8"
-            ],
-            [
-                "0x1",
-                "\u03b5(b)",
-                "0x8"
-            ],
-            [
-                "0x8",
-                "\u03b5(c)",
-                "0x8"
-            ],
-            [
-                "0x9",
-                "\u03b5(d)",
-                "0x8"
             ]
         ]
     },
-    "chain": "((a)U(bc*))*",
+    "chain": "(a)U(bc*)",
     "isLeaf": false,
     "fragment0": {
         "AFI": {
             "alphabet": [
-                "b",
-                "c",
-                "\u03b5",
                 "a"
             ],
             "states": [
-                "0x2",
-                "0x3",
-                "0x4",
-                "0x5",
-                "0x6",
                 "0x0",
-                "0x1",
-                "0x7",
-                "0x8",
-                "0x9"
+                "0x1"
             ],
-            "initial_state": "0x8",
+            "initial_state": "0x0",
             "accepting_states": [
-                "0x4",
-                "0x6",
-                "0x1",
-                "0x8",
-                "0x9"
+                "0x1"
             ],
             "transitions": [
                 [
                     "0x0",
                     "a",
                     "0x1"
-                ],
+                ]
+            ]
+        },
+        "chain": "(a)",
+        "isLeaf": true
+    },
+    "fragment1": {
+        "AFI": [],
+        "chain": "U",
+        "isLeaf": true
+    },
+    "fragment2": {
+        "AFI": {
+            "alphabet": [
+                "b",
+                "c",
+                "\u03b5"
+            ],
+            "states": [
+                "0x2",
+                "0x3",
+                "0x4",
+                "0x5",
+                "0x6"
+            ],
+            "initial_state": "0x2",
+            "accepting_states": [
+                "0x4",
+                "0x6"
+            ],
+            "transitions": [
                 [
                     "0x2",
                     "b",
@@ -174,144 +140,10 @@
                     "0x3",
                     "\u03b5(2)",
                     "0x4"
-                ],
-                [
-                    "0x7",
-                    "\u03b5(3)",
-                    "0x0"
-                ],
-                [
-                    "0x7",
-                    "\u03b5(4)",
-                    "0x2"
-                ],
-                [
-                    "0x4",
-                    "\u03b5(5)",
-                    "0x7"
-                ],
-                [
-                    "0x6",
-                    "\u03b5(6)",
-                    "0x7"
-                ],
-                [
-                    "0x1",
-                    "\u03b5(7)",
-                    "0x7"
-                ],
-                [
-                    "0x8",
-                    "\u03b5(8)",
-                    "0x7"
-                ],
-                [
-                    "0x4",
-                    "\u03b5(9)",
-                    "0x8"
-                ],
-                [
-                    "0x6",
-                    "\u03b5(a)",
-                    "0x8"
-                ],
-                [
-                    "0x1",
-                    "\u03b5(b)",
-                    "0x8"
-                ],
-                [
-                    "0x8",
-                    "\u03b5(c)",
-                    "0x8"
-                ],
-                [
-                    "0x9",
-                    "\u03b5(d)",
-                    "0x8"
                 ]
             ]
         },
-        "chain": "((a)U(bc*))*",
-        "isLeaf": false,
-        "fragment0": {
-            "AFI": {
-                "alphabet": [
-                    "a"
-                ],
-                "states": [
-                    "0x0",
-                    "0x1"
-                ],
-                "initial_state": "0x0",
-                "accepting_states": [
-                    "0x1"
-                ],
-                "transitions": [
-                    [
-                        "0x0",
-                        "a",
-                        "0x1"
-                    ]
-                ]
-            },
-            "chain": "(a)",
-            "isLeaf": true
-        },
-        "fragment1": {
-            "AFI": [],
-            "chain": "U",
-            "isLeaf": true
-        },
-        "fragment2": {
-            "AFI": {
-                "alphabet": [
-                    "b",
-                    "c",
-                    "\u03b5"
-                ],
-                "states": [
-                    "0x2",
-                    "0x3",
-                    "0x4",
-                    "0x5",
-                    "0x6"
-                ],
-                "initial_state": "0x2",
-                "accepting_states": [
-                    "0x4",
-                    "0x6"
-                ],
-                "transitions": [
-                    [
-                        "0x2",
-                        "b",
-                        "0x3"
-                    ],
-                    [
-                        "0x4",
-                        "\u03b5(0)",
-                        "0x5"
-                    ],
-                    [
-                        "0x5",
-                        "c",
-                        "0x6"
-                    ],
-                    [
-                        "0x6",
-                        "\u03b5(1)",
-                        "0x5"
-                    ],
-                    [
-                        "0x3",
-                        "\u03b5(2)",
-                        "0x4"
-                    ]
-                ]
-            },
-            "chain": "(bc*)",
-            "isLeaf": true
-        }
+        "chain": "(bc*)",
+        "isLeaf": true
     }
 }
