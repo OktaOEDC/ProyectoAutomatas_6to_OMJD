@@ -93,14 +93,14 @@ class regexAutomataMaker():
             starizedNode["transitions"].append(
                 [prevAcceptingState,
                  f"ε({self.getNextEpsilonID()})",
-                  previousInitial]
+                 previousInitial]
             )
         starizedNode["states"].append(newState)
         starizedNode["accepting_states"].append(newState)
         starizedNode["transitions"].append(
-                [newState,
-                 f"ε({self.getNextEpsilonID()})",
-                  previousInitial]
+            [newState,
+             f"ε({self.getNextEpsilonID()})",
+             previousInitial]
         )
         return starizedNode
 
@@ -109,27 +109,32 @@ class regexAutomataMaker():
         newStart = self.getNextAutomataStateID()
         leftInit = left["initial_state"]
         rightInit = right["initial_state"]
-        unionizedNode["alphabet"] = right["alphabet"] + left["alphabet"] 
+        unionizedNode["alphabet"] = right["alphabet"] + left["alphabet"]
         unionizedNode["states"] = right["states"] + left["states"] + [newStart]
-        unionizedNode["accepting_states"] = right["accepting_states"] + left["accepting_states"]
+        unionizedNode["accepting_states"] = right["accepting_states"] + \
+            left["accepting_states"]
         unionizedNode["initial_state"] = newStart
-        unionizedNode["transitions"] = left["transitions"] + right["transitions"]
-        unionizedNode["transitions"].append([newStart,f"ε({self.getNextEpsilonID()})",leftInit])
-        unionizedNode["transitions"].append([newStart,f"ε({self.getNextEpsilonID()})",rightInit])
+        unionizedNode["transitions"] = left["transitions"] + \
+            right["transitions"]
+        unionizedNode["transitions"].append(
+            [newStart, f"ε({self.getNextEpsilonID()})", leftInit])
+        unionizedNode["transitions"].append(
+            [newStart, f"ε({self.getNextEpsilonID()})", rightInit])
         return unionizedNode
 
     def nodesCONCAT(self, left: dict, right: dict):
         concatanatedNode = copy.deepcopy(self.AFITemplate)
-        concatanatedNode["alphabet"] = right["alphabet"] + left["alphabet"] 
+        concatanatedNode["alphabet"] = right["alphabet"] + left["alphabet"]
         concatanatedNode["states"] = right["states"] + left["states"]
-        concatanatedNode["accepting_states"] = right["accepting_states"] 
+        concatanatedNode["accepting_states"] = right["accepting_states"]
         concatanatedNode["initial_state"] = left["initial_state"]
-        concatanatedNode["transitions"] = left["transitions"] + right["transitions"]
+        concatanatedNode["transitions"] = left["transitions"] + \
+            right["transitions"]
         for leftPrevAcceptingState in left["accepting_states"]:
             concatanatedNode["transitions"].append(
                 [leftPrevAcceptingState,
                  f"ε({self.getNextEpsilonID()})",
-                  right["initial_state"]]
+                 right["initial_state"]]
             )
         return concatanatedNode
 
@@ -143,20 +148,23 @@ class regexAutomataMaker():
         if(treeNode["chain"][-1] == self.STAR):
             mustStarNode = True
         numberOfFragments = len([value for key,
-                         value in treeNode.items() if 'fragment' in key.lower()])
+                                 value in treeNode.items() if 'fragment' in key.lower()])
         fullNode = treeNode[f"fragment{0}"]["AFI"]
         fragmentIndex = 0
         while(fragmentIndex < numberOfFragments-1):
             if(fragmentIndex < numberOfFragments-2):
                 # Solo puede haber simbolo de UNION en esa circnstancia
                 if(treeNode[f"fragment{fragmentIndex+1}"]["chain"] == self.UNION):
-                    fullNode = self.nodesUNION(fullNode, treeNode[f"fragment{fragmentIndex+2}"]['AFI'])
+                    fullNode = self.nodesUNION(
+                        fullNode, treeNode[f"fragment{fragmentIndex+2}"]['AFI'])
                     fragmentIndex += 1
                 else:
-                    fullNode = self.nodesCONCAT(fullNode, treeNode[f"fragment{fragmentIndex+1}"]['AFI'])
+                    fullNode = self.nodesCONCAT(
+                        fullNode, treeNode[f"fragment{fragmentIndex+1}"]['AFI'])
             else:
-                fullNode = self.nodesCONCAT(fullNode, treeNode[f"fragment{fragmentIndex+1}"]['AFI'])
-            fragmentIndex += 1 
+                fullNode = self.nodesCONCAT(
+                    fullNode, treeNode[f"fragment{fragmentIndex+1}"]['AFI'])
+            fragmentIndex += 1
         # Al acbar convertirlo en AFI compatible con JSON .. o no porque las hojas ya lo eran?
         #fullNode = self.AFIToJson(fullNode)
         if(mustStarNode):
@@ -169,19 +177,20 @@ class regexAutomataMaker():
         numberOfFragments = len(nodefragments)
         chain = treeNode["chain"]
         # Es verdadero hasta que alguno no lo sea
-        allFragmentsAreUnionsOrAutomatas = True 
+        allFragmentsAreUnionsOrAutomatas = True
         for fragment in range(numberOfFragments):
             # SI su AFI es vacio no es automata
-            isAutomata = False 
+            isAutomata = False
             if(treeNode[f"fragment{fragment}"]["AFI"] != []):
-                isAutomata = True       
+                isAutomata = True
             isUnionLeaf = treeNode[f"fragment{fragment}"]["chain"] == self.UNION
-            if(((isAutomata) and (isUnionLeaf))or((isAutomata) and (not isUnionLeaf))or(not isAutomata and isUnionLeaf)):
+            if(((isAutomata) and (isUnionLeaf)) or ((isAutomata) and (not isUnionLeaf)) or (not isAutomata and isUnionLeaf)):
                 pass
             elif(not isAutomata):
                 allFragmentsAreUnionsOrAutomatas = False
                 fragChain = treeNode[f"fragment{fragment}"]["chain"]
-                self.recursiveAutomataTreeMaker(treeNode[f"fragment{fragment}"], OSpathChain+fragChain+"/", False)
+                self.recursiveAutomataTreeMaker(
+                    treeNode[f"fragment{fragment}"], OSpathChain+fragChain+"/", False)
         # Solo se debe revisar al final 1 solo vez si todos los fragmentos son automatas
         if(allFragmentsAreUnionsOrAutomatas):
             #(f"All fragments of chain {chain} are automatas")
@@ -190,13 +199,11 @@ class regexAutomataMaker():
             osNameChain = treeNode["chain"]
             osNameChain = osNameChain.replace("*", "\u204E")
             OSpathChain = OSpathChain.replace("*", "\u204E")
-            automata_IO.dfa_to_dot(
-                self.AFIToDot(treeNode["AFI"]),
-                str(f"{self.getNextAutomataID()}"),
-                f"./Automatas/Nodes/{OSpathChain}{osNameChain}")
+            automata_IO.dfa_to_dot(dfa=self.AFIToDot(treeNode["AFI"]), name='AFI', path='/AFI')
             if(isRoot):
-                print(f'The path to the root SVG is: "Automatas/Nodes/{OSpathChain}{osNameChain}"')
-                return 'Automatas/Nodes/{OSpathChain}{osNameChain}'
+                print(
+                    f'The path to the root SVG is: "Automatas/Nodes/{OSpathChain}{osNameChain}"')
+                return f"./AFI/AFI.svg"
 
     def DEFINE_SYMBOLS(self, UNIONsymbol: str, STARsymbol: str):
         self.UNION = UNIONsymbol
@@ -213,7 +220,7 @@ class regexAutomataMaker():
             AFI["states"].append(newState)
             AFI["initial_state"] = newState
             tupleKey = (newState,
-                            f"ε({self.getNextEpsilonID()})")
+                        f"ε({self.getNextEpsilonID()})")
             AFI["transitions"][tupleKey] = prevInitState
             # Conectar los previos de aceptacion con epsilon al inicial original
             for acceptingState in prevAcceptingStates:
@@ -245,7 +252,8 @@ class regexAutomataMaker():
             # Si la hoja es solo 1 parte, poner en el diccionario esta
             #  parte sin procesarla
             # Pero antes de acabar revisar si hay que aplicarle estrella
-            automataParts[0] = self.checkForLeafStar(automataParts[0], fragment["chain"])
+            automataParts[0] = self.checkForLeafStar(
+                automataParts[0], fragment["chain"])
             fragment["AFI"] = self.AFIToJson(automataParts[0])
             automata_IO.dfa_to_dot(
                 automataParts[0],
@@ -287,7 +295,8 @@ class regexAutomataMaker():
                 fusionedAutomata["transitions"][tupleKey] = rightTargetState
             automataPartsIndex += 1
         # Revisar si debemos aplicar estrella a toda la hoja antes de finalizar su proceso
-        fusionedAutomata = self.checkForLeafStar(fusionedAutomata, fragment["chain"])
+        fusionedAutomata = self.checkForLeafStar(
+            fusionedAutomata, fragment["chain"])
         fragment["AFI"] = self.AFIToJson(fusionedAutomata)
         automata_IO.dfa_to_dot(
             fusionedAutomata,

@@ -1,0 +1,7 @@
+digraph {
+	fake [style=invisible]
+	"0x17" [root=true]
+	"0x18" [shape=doublecircle]
+	fake -> "0x17" [style=bold]
+	"0x17" -> "0x18" [label=b]
+}
