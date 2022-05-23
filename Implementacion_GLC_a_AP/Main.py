@@ -180,7 +180,6 @@ def PDA(qi, qc, qa):
     image_editable.text((225,400), qa, (12, 12, 13), font=font)
     # my_image.show()
     my_image.save('Implementacion_GLC_a_AP/AP_texto.png')
-    return 
 
 
 main()
