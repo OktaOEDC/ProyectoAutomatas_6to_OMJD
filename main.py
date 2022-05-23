@@ -1,26 +1,21 @@
-from cmath import exp
+
 import PySimpleGUI as sg
-from numpy import append, array
+pip install svglib
+
 import Implementacion_GLC_a_AP.Main as GLC
-import Implementacion_REGEX_a_AFI as RTA
+import Implementacion_REGEX_a_AFI.Main as RTA
+import Implementacion_REGEX_a_AFI.Fragmenter
+import Implementacion_REGEX_a_AFI.AutomataMaker
+import Implementacion_REGEX_a_AFI.Preparer as Preparer
+
 sg.theme('BluePurple')
 
 
 class useregex:
-    def __init__(self):
-        self.alphabet = []
-
-    def input_symbol_to_alphabet(self, symbol):
-        print(f'{symbol} was entered')
-        self.alphabet.append(symbol)
-        print(self.alphabet)
-
-    def submit_regex(self):
-        # la regla tiene que ser escrita de la siguiente forma: S->a|bc|D
-        print('SEND REGEX TO JSON....')
-
-    def get_regex(self):
-        return str(self.alphabet)
+    def __init__(self, userchain):
+        self. result = ''
+    def main():
+        return RTA.main(userchain)
 
 
 class GLCtoAP:
@@ -32,49 +27,39 @@ class GLCtoAP:
 
     def main(self):
         GLC.separador(self.expressions)
+        print('made image')
 
 
-class REGEXtoAFI:
-    def __init__(self) -> None:
-        self.idk = ''
-
-    def main(self):
-        RTA.main(self.idk)
-
-    def addchain(self, regular_expression):
-        self.idk(regular_expression)
 
 
-user_regex = useregex()
-ls_regex = user_regex.get_regex()
+#user_glc = GLCtoAP()
 
-
-layout = [[sg.Text('---REGEX to AFI---')], [sg.Text('Type in a symbol:'), sg.Input(key='-INPUT REGEX-')],
-          [sg.Text('Type in a RegEx:'), sg.Input(key='-INPUT SYMBOL-')],
-          [sg.Button('Enter alphabet symbol'), sg.Button(
-              'Show AFI'), sg.Button('Exit')],
-          [sg.Text('PLACEHOLDER IMAGE')],
+layout = [[sg.Text('---REGEX to AFI CONVERTER---')],
+          [sg.Text('Type in a RegEx:'), sg.Input(key='CHAIN')],
+          [sg.Button(
+              'Show resulting AFI'), sg.Button('Exit')],
+          [sg.Image(key='AFI')],
           [sg.Text('GLC to PA')],
           [sg.Text('Type Rule in form S->a|bc|D  :'),
            sg.Input(key='-INPUT RULE-')],
           [sg.Button('Add Rule'), sg.Button(
               'Show Automaton')],
-          [sg.Image(r'./jack.jpg')]]
+          [sg.Image()]]
 
 window = sg.Window('REGEX to AFI', layout)
 
 while True:  # Event Loop
     user_expression = []
+    userGLC = GLCtoAP
     event, values = window.read()
     print(event, values)
     if event == sg.WIN_CLOSED or event == 'Exit':
         break
-    if event == 'Show AFI':
+    if event == 'Show resulting AFI':
+        print(values['CHAIN'][0])
+        image_path = useregex(values['CHAIN'])
+        window['AFI'].update(filename=image_path)
         # Update the "output" text element to be the value of "input" element
-        window['-OUTPUT-'].update(ls_regex)
-    if event == 'Enter an alphabet symbol':
-        user_regex.input_symbol_to_alphabet(values['-IN-'])
-        window['-INPUT SYMBOL-'].update('')
     if event == 'Enter an alphabet symbol':
         pass
 window.close()

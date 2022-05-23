@@ -1,6 +1,7 @@
-from Preparer import regexPreparer
-from Fragmenter import regexFragmenter
-from AutomataMaker import regexAutomataMaker
+import imp
+from Implementacion_REGEX_a_AFI.Fragmenter import regexFragmenter
+from Implementacion_REGEX_a_AFI.AutomataMaker import regexAutomataMaker
+from Implementacion_REGEX_a_AFI.Preparer import regexPreparer
 import json
 
 #chain = "(ab*c(dUf*a(bUc)ab(cd*)*))kd"
@@ -16,6 +17,7 @@ def main(regular_expression):
     RE_fragmenter = regexFragmenter()
     RE_AFIMaker = regexAutomataMaker()
     RE_chain = RE_parser.removeSpaces(regular_expression)
+    final_image_path = ''
     # PARSER
     # FASE 1: Definir symbolos en cada una de las clases que procesan la cadena
     RE_parser.DEFINE_SYMBOLS("U", "*")
@@ -44,7 +46,9 @@ def main(regular_expression):
     osPathChain += "/"
     # FASE 7: Recursivamente resolver de arriba hasta abajo el arbol hasta que root sea automata
     while(RE_AFIMaker.makerTree["Root"]["AFI"] == []):
-        RE_AFIMaker.recursiveAutomataTreeMaker(RE_AFIMaker.makerTree["Root"], osPathChain, True)
+        final_image_path =RE_AFIMaker.recursiveAutomataTreeMaker(RE_AFIMaker.makerTree["Root"], osPathChain, True)
     json_object = json.dumps(RE_AFIMaker.automataTree, indent=4)
     with open("jsonTree.json", "wt") as outfile:
         outfile.write(json_object)
+        
+    return final_image_path

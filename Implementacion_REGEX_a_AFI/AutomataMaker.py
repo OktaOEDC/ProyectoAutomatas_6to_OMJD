@@ -196,6 +196,7 @@ class regexAutomataMaker():
                 f"./Automatas/Nodes/{OSpathChain}{osNameChain}")
             if(isRoot):
                 print(f'The path to the root SVG is: "Automatas/Nodes/{OSpathChain}{osNameChain}"')
+                return 'Automatas/Nodes/{OSpathChain}{osNameChain}'
 
     def DEFINE_SYMBOLS(self, UNIONsymbol: str, STARsymbol: str):
         self.UNION = UNIONsymbol
