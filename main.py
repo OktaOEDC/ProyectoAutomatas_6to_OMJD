@@ -62,7 +62,7 @@ while True:  # Event Loop
         cairosvg.svg2png(url='./AFI/AFI.dot.svg', write_to="./images/afi.png")
 
         print(values['CHAIN'][0])
-        window['AFI'].update(filename="./images/afi.png")
+        window['AFI'].update(filename="./images/afi.png", size=(480,720))
         # Update the "output" text element to be the value of "input" element
     if event == 'Add Rule':
         userGLC.tagExp(values['INPUTRULE'])

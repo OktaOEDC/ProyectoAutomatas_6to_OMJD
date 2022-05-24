@@ -1,0 +1,7 @@
+pysimplegui
+svglib
+reportlab
+cairosvg
+pysimpleautomata
+numpy
+Pillow
