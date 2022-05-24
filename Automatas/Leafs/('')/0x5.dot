@@ -1,0 +1,11 @@
+digraph {
+	fake [style=invisible]
+	"0x42" [root=true]
+	"0x43"
+	"0x44"
+	"0x45" [shape=doublecircle]
+	fake -> "0x42" [style=bold]
+	"0x42" -> "0x43" [label="'"]
+	"0x44" -> "0x45" [label="'"]
+	"0x43" -> "0x44" [label="ε(1c)"]
+}

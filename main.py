@@ -1,3 +1,4 @@
+from pickle import TRUE
 import PySimpleGUI as sg
 from svglib.svglib import svg2rlg
 from reportlab.graphics import renderPDF, renderPM
@@ -12,7 +13,7 @@ sg.theme('BluePurple')
 
 
 def regexfunc(chain):
-        return RTA.main(chain)
+    return RTA.main(chain)
 
 
 class GLCtoAP:
@@ -34,21 +35,30 @@ class GLCtoAP:
         return self.expressions
 
 
-layout = [[sg.Text('---REGEX to AFI CONVERTER---')],
-          [sg.Text('Type in a RegEx:'), sg.Input(key='CHAIN')],
-          [sg.Button(
-              'Show resulting AFI'), sg.Button('Exit')],
-          [sg.Image(key='AFI')],
-          [sg.Text('GLC to PA')],
-          [sg.Text('Type Rule in form S->a|bc|D  :'),
-           sg.Input(key='INPUTRULE')],
-          [sg.Text(key='RULES')],
-          [sg.Button('Add Rule'), sg.Button(
-              'Show Automaton')],
-          [sg.Image(key='AP')]]
+image_layout = [[sg.Text('---REGEX to AFI CONVERTER---')],
+                [sg.Text('Type in a RegEx:'), sg.Input(key='CHAIN')],
+                [sg.Button(
+                    'Show resulting AFI'), sg.Button('Exit')], [sg.Image(key='AFI')]]
+for i in range(200):
+    ls = [sg.Text(' ')]
+    image_layout.append(ls)
+    
+glc_layout = [[sg.Text('GLC to PA')],
+              [sg.Text('Type Rule in form S->a|bc|D  :'),
+              sg.Input(key='INPUTRULE')],
+              [sg.Text(key='RULES')],
+              [sg.Button('Add Rule'), sg.Button(
+                  'Show Automaton')],
+              [sg.Image(key='AP')]]
+layout = [
+    [sg.Column(image_layout, key='column', scrollable=True,
+               vertical_scroll_only=False, expand_x=True, expand_y=True, s=(600, 900)),
+     sg.Column(glc_layout, key='glc_column', scrollable=True, vertical_scroll_only=False, expand_x=True, expand_y=True, vertical_alignment='top', grab=True)]
+]
 userGLC = GLCtoAP()
 
-window = sg.Window('REGEX to AFI', layout)
+
+window = sg.Window('Automatas', layout)
 
 while True:  # Event Loop
     user_expression = []
@@ -58,19 +68,20 @@ while True:  # Event Loop
         break
     if event == 'Show resulting AFI':
         afi_path = regexfunc(values['CHAIN'])
-        
-        cairosvg.svg2png(url='./AFI/AFI.dot.svg', write_to="./images/afi.png")
+
+        cairosvg.svg2png(url='./AFI/AFI.dot.svg', write_to="./images/afi.png",
+                         output_width=600, output_height=None)
 
         print(values['CHAIN'][0])
-        window['AFI'].update(filename="./images/afi.png", size=(480,720))
+        window['AFI'].update(filename="./images/afi.png")
         # Update the "output" text element to be the value of "input" element
     if event == 'Add Rule':
         userGLC.tagExp(values['INPUTRULE'])
-        
+
         window['RULES'].update(userGLC.getReadable())
-    if event =='Show Automaton': 
-        
+    if event == 'Show Automaton':
+
         userGLC.main()
-        window['AP'].update(filename = 'Implementacion_GLC_a_AP/AP_texto.png')
+        window['AP'].update(filename='Implementacion_GLC_a_AP/AP_texto.png')
 
 window.close()
