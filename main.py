@@ -69,11 +69,11 @@ while True:  # Event Loop
     if event == 'Show resulting AFI':
         afi_path = regexfunc(values['CHAIN'])
 
-        cairosvg.svg2png(url='./AFI/AFI.dot.svg', write_to="./images/afi.png",
+        cairosvg.svg2png(url=afi_path, write_to=afi_path+'.png',
                          output_width=600, output_height=None)
 
         print(values['CHAIN'][0])
-        window['AFI'].update(filename="./images/afi.png")
+        window['AFI'].update(filename=afi_path+'.path')
         # Update the "output" text element to be the value of "input" element
     if event == 'Add Rule':
         userGLC.tagExp(values['INPUTRULE'])
