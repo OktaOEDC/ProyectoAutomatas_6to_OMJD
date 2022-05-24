@@ -1,7 +1,0 @@
-digraph {
-	fake [style=invisible]
-	"0x25" [root=true]
-	"0x26" [shape=doublecircle]
-	fake -> "0x25" [style=bold]
-	"0x25" -> "0x26" [label=a]
-}

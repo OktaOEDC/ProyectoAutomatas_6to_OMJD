@@ -199,10 +199,11 @@ class regexAutomataMaker():
             osNameChain = treeNode["chain"]
             osNameChain = osNameChain.replace("*", "\u204E")
             OSpathChain = OSpathChain.replace("*", "\u204E")
-            automata_IO.dfa_to_dot(dfa=self.AFIToDot(treeNode["AFI"]), name='AFI', path='/AFI')
+            
             if(isRoot):
+                automata_IO.dfa_to_dot(dfa=self.AFIToDot(treeNode["AFI"]), name='AFI', path='./AFI')
                 print(
-                    f'The path to the root SVG is: "Automatas/Nodes/{OSpathChain}{osNameChain}"')
+                    f'The path to the root SVG is not: "Automatas/Nodes/{OSpathChain}{osNameChain}".. xd')
                 return f"./AFI/AFI.svg"
 
     def DEFINE_SYMBOLS(self, UNIONsymbol: str, STARsymbol: str):

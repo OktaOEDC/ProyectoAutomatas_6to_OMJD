@@ -59,7 +59,7 @@ while True:  # Event Loop
     if event == 'Show resulting AFI':
         afi_path = regexfunc(values['CHAIN'])
         
-        cairosvg.svg2png(url='./AFI/AFI.svg', write_to="./images/afi.png")
+        cairosvg.svg2png(url='./AFI/AFI.dot.svg', write_to="./images/afi.png")
 
         print(values['CHAIN'][0])
         window['AFI'].update(filename="./images/afi.png")
