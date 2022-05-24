@@ -24,6 +24,9 @@ class GLCtoAP:
     def tagExp(self, expression):
         self.expressions.append(expression)
         self.readable += expression+"\n"
+    def clearExps(self):
+        self.expressions=[]
+        self.readable=''
 
     def getReadable(self):
         return self.readable
@@ -36,7 +39,7 @@ class GLCtoAP:
 
 
 image_layout = [[sg.Text('---REGEX to AFI CONVERTER---')],
-                [sg.Text('Type in a RegEx:'), sg.Input(key='CHAIN')],
+                [sg.Text('Type in a RegEx:', key='regex-info'), sg.Input(key='CHAIN')],
                 [sg.Button(
                     'Show resulting AFI'), sg.Button('Exit')], [sg.Image(key='AFI')]]
 for i in range(200):
@@ -48,7 +51,7 @@ glc_layout = [[sg.Text('GLC to PA')],
               sg.Input(key='INPUTRULE')],
               [sg.Text(key='RULES')],
               [sg.Button('Add Rule'), sg.Button(
-                  'Show Automaton')],
+                  'Show Automaton'), sg.Button('Clear Rules')],
               [sg.Image(key='AP')]]
 layout = [
     [sg.Column(image_layout, key='column', scrollable=True,
@@ -67,21 +70,35 @@ while True:  # Event Loop
     if event == sg.WIN_CLOSED or event == 'Exit':
         break
     if event == 'Show resulting AFI':
-        afi_path = regexfunc(values['CHAIN'])
-
-        cairosvg.svg2png(url=afi_path, write_to=afi_path+'.png',
-                         output_width=600, output_height=None)
-
-        print(values['CHAIN'][0])
-        window['AFI'].update(filename=afi_path+'.path')
+        try:
+            afi_path = regexfunc(values['CHAIN'])
+            cairosvg.svg2png(url='./AFI/AFI.dot.svg', write_to="./images/afi.png",
+                            output_width=600, output_height=None)
+            print(values['CHAIN'][0])
+            window['AFI'].update(filename="./images/afi.png")
+        except:
+            window['regex-info'].update('Type in a FUNCTIONING regex: ')
         # Update the "output" text element to be the value of "input" element
+    if event == 'Clear Rules':
+        try:
+            userGLC.clearExps()
+            print('Cleared Rules')
+            window['Rules'].update('')
+            pass
+        except:
+            pass
     if event == 'Add Rule':
-        userGLC.tagExp(values['INPUTRULE'])
-
-        window['RULES'].update(userGLC.getReadable())
+                
+        try:
+            userGLC.tagExp(values['INPUTRULE'])
+            window['RULES'].update(userGLC.getReadable())
+        except:
+            pass
     if event == 'Show Automaton':
 
-        userGLC.main()
-        window['AP'].update(filename='Implementacion_GLC_a_AP/AP_texto.png')
-
+        try:
+            userGLC.main()
+            window['AP'].update(filename='Implementacion_GLC_a_AP/AP_texto.png')
+        except:
+            pass
 window.close()
