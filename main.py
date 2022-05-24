@@ -41,7 +41,7 @@ class GLCtoAP:
 image_layout = [[sg.Text('---REGEX to AFI CONVERTER---')],
                 [sg.Text('Type in a RegEx:', key='regex-info'), sg.Input(key='CHAIN')],
                 [sg.Button(
-                    'Show resulting AFI'), sg.Button('Exit')], [sg.Image(key='AFI')]]
+                    'Show resulting AFI'),sg.Button('Clear Regex'), sg.Button('Exit')], [sg.Image(key='AFI')]]
 for i in range(200):
     ls = [sg.Text(' ')]
     image_layout.append(ls)
@@ -79,6 +79,12 @@ while True:  # Event Loop
         except:
             window['regex-info'].update('Type in a FUNCTIONING regex: ')
         # Update the "output" text element to be the value of "input" element
+    if event =='Clear Regex':
+        try:
+            window['AFI'].update(filename=None)
+            pass
+        except:
+            pass    
     if event == 'Clear Rules':
         try:
             userGLC.clearExps()
