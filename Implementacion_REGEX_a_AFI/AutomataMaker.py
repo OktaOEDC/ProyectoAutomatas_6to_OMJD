@@ -205,8 +205,6 @@ class regexAutomataMaker():
                 print(
                     f'The path to the root SVG is not: "Automatas/Nodes/{OSpathChain}{osNameChain}".. xd')
                 return f"./AFI/AFI.svg"
-            else:
-                automata_IO.dfa_to_dot(dfa=self.AFIToDot(treeNode["AFI"]), name=f'{osNameChain}', path=f'./{OSpathChain}')
 
     def DEFINE_SYMBOLS(self, UNIONsymbol: str, STARsymbol: str):
         self.UNION = UNIONsymbol
