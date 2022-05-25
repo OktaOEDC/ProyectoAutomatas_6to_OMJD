@@ -47,7 +47,7 @@ for i in range(200):
     image_layout.append(ls)
     
 glc_layout = [[sg.Text('GLC to PA')],
-              [sg.Text('Type Rule in form S->a|bc|D  :'),
+              [sg.Text('Type Rule in form S->a|bc|D  :', key='inst'),
               sg.Input(key='INPUTRULE')],
               [sg.Text(key='RULES')],
               [sg.Button('Add Rule'), sg.Button(
@@ -89,8 +89,8 @@ while True:  # Event Loop
         try:
             userGLC.clearExps()
             print('Cleared Rules')
-            window['Rules'].update('')
-            pass
+            window['RULES'].update(' ')
+            window['inst'].update('Type a Rule in the form S->a|bc|D: ')
         except:
             pass
     if event == 'Add Rule':
@@ -107,5 +107,5 @@ while True:  # Event Loop
             userGLC.main()
             window['AP'].update(filename='Implementacion_GLC_a_AP/AP_texto.png')
         except:
-            pass
+            window['inst'].update('Type a VALID Rule in the form S->a|bc|D  again: ')
 window.close()
