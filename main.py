@@ -99,7 +99,8 @@ while True:  # Event Loop
             userGLC.tagExp(values['INPUTRULE'])
             window['RULES'].update(userGLC.getReadable())
         except:
-            pass
+            window['RULES'].update(userGLC.getReadable()+'NOT A VALID RULE\n')
+
     if event == 'Show Automaton':
 
         try:
