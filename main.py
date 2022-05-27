@@ -38,6 +38,21 @@ class GLCtoAP:
         return self.expressions
 
 
+import os
+import os 
+    
+# path 
+paths =['./images', './AFI']
+    
+# Create the directory 
+# 'GeeksForGeeks' in 
+# '/home / User / Documents' 
+try: 
+    for path in paths:
+        os.mkdir(path)
+except OSError as error: 
+    print(error)  
+
 image_layout = [[sg.Text('---REGEX to AFI CONVERTER---')],
                 [sg.Text('Type in a RegEx:', key='regex-info'), sg.Input(key='CHAIN')],
                 [sg.Button(
@@ -91,7 +106,7 @@ while True:  # Event Loop
             print('Cleared Rules')
             window['RULES'].update(' ')
             window['inst'].update('Type a Rule in the form S->a|bc|D: ')
-        except:
+        except: 
             pass
     if event == 'Add Rule':
                 
@@ -105,7 +120,7 @@ while True:  # Event Loop
 
         try:
             userGLC.main()
-            window['AP'].update(filename='Implementacion_GLC_a_AP/AP_texto.png')
+            window['AP'].update(filename='./images/AP_texto.png')
         except:
             window['inst'].update('Type a VALID Rule in the form S->a|bc|D  again: ')
 window.close()

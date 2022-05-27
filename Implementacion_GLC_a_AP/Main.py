@@ -1,9 +1,5 @@
 from ast import Delete, excepthandler
-from pickle import EMPTY_LIST, FALSE
 from PIL import Image, ImageFont, ImageDraw
-from numpy import empty
-
-
 def main():
     datainput() #recoleccion de datos
 
@@ -169,17 +165,24 @@ def finisher(qi,qc,qa):
     print(f'la transicion de aceptacion (qa) seria: {qa}')
 
 def PDA(qi, qc, qa):
-    my_image = Image.open('Implementacion_GLC_a_AP/AP_no_texto.png')
-    font = ImageFont.truetype("arial.ttf", 20)
-    image_editable = ImageDraw.Draw(my_image)
-    image_editable.text((225,150), qi, (12, 12, 13), font=font)
-    i = 0
-    while i < len(qc):
-        image_editable.text((400,225+ (20*i)), qc[i], (12, 12, 13), font=font)
-        i+=1
-    image_editable.text((225,400), qa, (12, 12, 13), font=font)
-    # my_image.show()
-    my_image.save('Implementacion_GLC_a_AP/AP_texto.png')
+    try:
+        print('GENERATING IMAGE OF PUSHDOWN AUTOMATON')
+        my_image = Image.create('RGB',(500,500))
+        my_image.save('./images/AP_no_texto.png')
+        my_image = Image.open('./images/AP_no_texto.png')
+        font = ImageFont.truetype("arial.ttf", 20)
+        image_editable = ImageDraw.Draw(my_image)
+        image_editable.text((225,150), qi, (12, 12, 13), font=font)
+        i = 0
+        print("xd")
+        while i < len(qc):
+            image_editable.text((400,225+ (20*i)), qc[i], (12, 12, 13), font=font)
+            i+=1
+        image_editable.text((225,400), qa, (12, 12, 13), font=font)
+        # my_image.show()
+        my_image.save('./images/AP_texto.png')
+    except OSError as error:
+        print(error)
 
 
 main()
